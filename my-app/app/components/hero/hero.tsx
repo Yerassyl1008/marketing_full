@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 
 /** Положи ролик в `public/video/hero.mp4` (можно добавить `hero.webm` вторым `<source>`). */
-const HERO_VIDEO_MP4 = "/video/Анимация_персонажей_с_цветными_деталями.mp4";
+const HERO_VIDEO_MP4 = "/video/";
 
 export default function Hero() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
