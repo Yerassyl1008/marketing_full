@@ -1,0 +1,377 @@
+{
+  "header": {
+    "connect": "Kontaktieren",
+    "projects": "Projekte",
+    "services": "Dienstleistungen",
+    "team": "Team"
+  },
+  "hero": {
+    "button": "Kontaktieren Sie uns",
+    "span": "299 €/Monat",
+    "text": "Wir übernehmen diese Aufgabe vollständig.",
+    "title": "Umfassende Förderung Ihres Unternehmens von"
+  },
+  "workers": {
+    "nextSlide": "Nächste Folie",
+    "openProfile": "Profil öffnen",
+    "showMore": "Mehr anzeigen",
+    "title": "Spezialisten",
+    "items": {
+      "anastasia": {
+        "name": "Anastasia Jakowlewa",
+        "role": "Designerin",
+        "experience": "3 Jahre Erfahrung"
+      },
+      "alexey": {
+        "name": "Alexej Petrow",
+        "role": "Targeting-Spezialist",
+        "experience": "5 Jahre Erfahrung"
+      },
+      "maria": {
+        "name": "Maria Sokolova",
+        "role": "SMM-Spezialistin",
+        "experience": "4 Jahre Erfahrung"
+      },
+      "arina": {
+        "name": "Arina Kusnezowa",
+        "role": "SEO-Spezialistin",
+        "experience": "7 Jahre Erfahrung"
+      },
+      "vyacheslav": {
+        "name": "Wjatscheslaw Makuschew",
+        "role": "Targeting-Spezialist",
+        "experience": "4 Jahre Erfahrung"
+      },
+      "ivan": {
+        "name": "Iwan Tichonow",
+        "role": "Manager",
+        "experience": "6 Jahre Erfahrung"
+      },
+      "elizaveta": {
+        "name": "Elizaveta Orlova",
+        "role": "Content-Managerin",
+        "experience": "5 Jahre Erfahrung"
+      }
+    }
+  },
+  "servicesSection": {
+    "title": "Dienstleistungen",
+    "sections": {
+      "popular": {
+        "title": "Am häufigsten bestellt",
+        "items": {
+          "targetedMetaVkTiktok": "Targeted-Werbung für Meta, VK, TikTok",
+          "contextGoogleYandex": "Kontextwerbung in Google Ads / Yandex Direct",
+          "seoPromotion": "SEO-Optimierung der Website",
+          "corporateWebsite": "Entwicklung einer Unternehmenswebsite",
+          "smmManagement": "SMM - Betreuung sozialer Netzwerke",
+          "adCreatives": "Erstellung von Werbekreativen",
+          "copywriting": "Copywriting (Texte für Website und Werbung)",
+          "analyticsSetup": "Einrichtung von Analytics (Google Analytics, Yandex Metrica)",
+          "emailMarketing": "E-Mail-Marketing (Kampagnen-Setup)"
+        }
+      },
+      "middle": {
+        "title": "Mittlere Bestellhäufigkeit",
+        "items": {
+          "websiteRedesign": "Website-Redesign",
+          "uxUiDesign": "UX/UI-Design",
+          "abTesting": "A/B-Tests für Anzeigen und Landingpages",
+          "marketplacePromotion": "Promotion auf Marktplätzen",
+          "onlineStoreCreation": "Erstellung eines Onlineshops",
+          "influencerAds": "Influencer-Marketing (Blogger-Auswahl)",
+          "videoProduction": "Videoanzeigen / Videoproduktion",
+          "crmAutomation": "Einrichtung von CRM und Automatisierung",
+          "localSeo": "Lokales SEO (Maps, Google Business Profile)"
+        }
+      },
+      "rare": {
+        "title": "Seltener, aber regelmäßig bestellt",
+        "items": {
+          "logoDesign": "Logo-Entwicklung",
+          "brandIdentity": "Entwicklung des Corporate Designs",
+          "prPublications": "PR-Veröffentlichungen in Medien",
+          "brandbook": "Brandbook",
+          "marketingResearch": "Marktforschung",
+          "businessPhotography": "Business-Fotografie",
+          "presentationDesign": "Erstellung von Präsentationen",
+          "chatbots": "Chatbots für Website / Messenger",
+          "quizLandingPages": "Entwicklung von Quiz-Landingpages"
+        }
+      }
+    }
+  },
+  "cardSection": {
+    "left": {
+      "titleTop": "Sie wissen nicht,",
+      "titleBottom": "wo Sie anfangen sollen?",
+      "description": "Wenn Sie noch nicht wissen, wen Sie ins Team holen möchten, hinterlassen Sie eine Anfrage für ein Gespräch mit einem Marketer.",
+      "free": "Es ist kostenlos.",
+      "illustrationAlt": "Dienstleistungsillustration",
+      "tags": {
+        "designBranding": "Design und Branding",
+        "websiteCreation": "Website-Erstellung",
+        "smm": "SMM",
+        "copywriting": "Copywriting",
+        "emailMarketing": "E-Mail-Marketing",
+        "seoPromotion": "SEO-Optimierung der Website",
+        "targetedAds": "Targeting-Werbung",
+        "googleYandexAds": "Google Ads / Yandex Direct",
+        "andMore": "Und so weiter..."
+      }
+    },
+    "form": {
+      "title": "Kontaktieren Sie uns",
+      "nameLabel": "Ihr Name:",
+      "emailLabel": "E-Mail:",
+      "contactMethodLabel": "Kontaktmethode",
+      "telegramOption": "Telegram",
+      "whatsappOption": "WhatsApp",
+      "contactValueLabel": "Ihr Telegram:",
+      "contactPlaceholder": "@username oder Telefonnummer",
+      "submit": "Beratung erhalten",
+      "submitting": "Wird gesendet..."
+    },
+    "social": {
+      "telegram": "Telegram",
+      "viber": "Viber"
+    },
+    "errors": {
+      "requiredFields": "Name, E-Mail und Kontaktmethode ausfüllen.",
+      "submitFailed": "Anfrage konnte nicht gesendet werden.",
+      "unknown": "Fehler beim Senden des Formulars."
+    },
+    "success": {
+      "submitted": "Anfrage gesendet. Sie ist bereits im Admin."
+    }
+  },
+  "commentSection": {
+    "prevReview": "Vorherige Bewertung",
+    "nextReview": "Nächste Bewertung",
+    "items": {
+      "first": {
+        "badge": "Verifizierte Bewertung",
+        "name": "Yerlan T.",
+        "subtitle": "Markengründer",
+        "title": "Das Team hat unsere Verkäufe gesteigert",
+        "body": "Wir kamen ohne klare Strategie und haben in zwei Monaten einen stabilen Lead-Flow erhalten. Das Team hat schnell übernommen, jeden Schritt erklärt und das Marketing vollständig geführt.",
+        "rating": "5.0"
+      },
+      "second": {
+        "badge": "Verifizierte Bewertung",
+        "name": "Maria K.",
+        "subtitle": "Projektleiterin",
+        "title": "Klar, transparent und praxisnah",
+        "body": "Mir gefiel der strukturierte Ansatz von der Analyse bis zu Werbekreativen. Wir sehen die Kennzahlen, verstehen den Budgeteinsatz und erhalten Ergebnisse ohne zusätzliche interne Routine.",
+        "rating": "5.0"
+      }
+    }
+  },
+  "smm": {
+    "breadcrumbServices": "Dienstleistungen",
+    "breadcrumbCurrent": "SMM",
+    "titleHighlight": "SMM-Marketing",
+    "titleRest": "das Ihre Verkäufe voranbringt",
+    "description": "Wir schaffen lebendige Communities um Ihre Marke, generieren organischen Traffic und verwandeln Follower in Käufer — systematisch, ohne Schein-Interaktionen.",
+    "contactButton": "Kontaktieren Sie uns",
+    "calculatorAlt": "Rechner",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "design": {
+    "imageAlt": "Porträt Anastasia Jakowlewa",
+    "breadcrumbTeam": "Team",
+    "breadcrumbName": "Anastasia Jakowlewa",
+    "titleHighlight": "SMM-Designerin",
+    "titleSecondLine": "& Content Creator",
+    "description": "Gestaltet die visuelle Stimme der Marke — von der Strategie bis zum Pixel. Verwandelt Ideen in Content, den man sich merkt und teilt.",
+    "contactButton": "Kontaktieren Sie uns",
+    "calculatorAlt": "Rechner",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "work": {
+    "title": "Wie arbeiten wir?",
+    "illustrationAlt": "Marketingexperte",
+    "stepBadge": "Schritt {step}",
+    "steps": {
+      "1": {
+        "title": "Analyse",
+        "text": "Tiefgehende Auswertung der vom Analysten erhobenen Informationen"
+      },
+      "2": {
+        "title": "Positionierung",
+        "text": "Hervorheben der Stärken des Unternehmens und des USP gegenüber der Konkurrenz"
+      },
+      "3": {
+        "title": "Strategie",
+        "text": "Erstellung eines Werbeplans für das Unternehmen"
+      },
+      "4": {
+        "title": "Start",
+        "text": "Start und Tests der Werbeaktivitäten"
+      },
+      "5": {
+        "title": "Wachstum",
+        "text": "Skalierung der Werbekampagnen"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "allProjects": "Alle Projekte",
+    "priceLabel": "Preis",
+    "openProject": "Projekt öffnen",
+    "prevSlide": "Vorherige Folie",
+    "nextSlide": "Nächste Folie",
+    "items": {
+      "silpo": {
+        "title": "Silpo",
+        "category": "Einzelhandel",
+        "description": "Umfassende Bewerbung einer großen Supermarktkette auf Instagram und Google",
+        "price": "300 € / Monat"
+      }
+    }
+  },
+  "features": {
+    "iconAlt": "Symbol",
+    "items": {
+      "1": {
+        "badge": "Analytics",
+        "title": "Wachstum nach Kennzahlen",
+        "description": "Kern-KPIs wöchentlich erfasst: Engagement, Reichweite, Kosten pro Lead und Werbebeitrag zum Umsatz. Budget umgeschichtet, schwache Ad-Sets gestoppt und skaliert, was CPL und ROAS dauerhaft traf."
+      },
+      "2": {
+        "badge": "Content",
+        "title": "Stabile Reichweite",
+        "description": "Content-Kalender mit Rubriken, Stories, Reels und Feed-Posts pro Funnel-Phase. Stetiges Publishing und DM-Bearbeitung, damit Organik ohne Einbrüche wächst und Vertrauen zwischen Paid-Wellen bleibt."
+      },
+      "3": {
+        "badge": "Werbung",
+        "title": "Budget-Optimierung",
+        "description": "Hypothesen mit kleinem Budget gestartet, skaliert nur bei stabilen Kennzahlen. Retargeting und Lookalikes stufenweise nach Event-Setup und Datenqualität in der Analytik."
+      },
+      "4": {
+        "badge": "Team",
+        "title": "Transparente Reports",
+        "description": "Jede Woche ein kurzer Report mit Zahlen, Learnings und Prioritäten für den nächsten Sprint. Vereinbarungen als Tasks festgehalten – Kunden sehen jederzeit Stand und Gründe für Prioritätswechsel."
+      }
+    }
+  },
+  "info": {
+    "title": "Projektdetails",
+    "items": {
+      "1": {
+        "title": "Ziel",
+        "body": "Es ging nicht nur um schöne Social-Media-Auftritte, sondern um ein System: Aufmerksamkeit gewinnen, Publikum halten und bis zur Zielaktion führen – vom Follower zu Lead oder Kauf. Organik und Paid sollten sich ergänzen, nicht gegeneinander arbeiten, ohne die Marke mit widersprüchlichen Botschaften zu verwässern."
+      },
+      "2": {
+        "title": "Vorgehen",
+        "body": "Start mit Audit von Kanälen und Analytics: Events auf Website und in Werbekonten, End-to-End-Funnel, bestehende Creatives und Landingpages. Danach einheitliche Content-Produktion und Kampagnen mit klaren Hypothesen. In jeder Phase Tests von Angeboten, Formaten und Visuals – was bei Ihrer Zielgruppe wirkt, nicht nach generischen Benchmarks."
+      },
+      "3": {
+        "title": "Ergebnis",
+        "body": "Mit der Zeit stiegen Reichweite und Traffic-Qualität: Leads wurden gleichmäßiger statt nur in Spitzen. Budget schrittweise auf bewährte Ad-Sets erhöht und ausgegeben, was keinen nachhaltigen Effekt brachte – Skalierung ohne chaotische Kostenexplosion."
+      },
+      "4": {
+        "title": "Reporting",
+        "body": "Mehr als Screenshots: klares Bild zu Änderungen, Kennzahlen, nächsten Schritten und Risiken in Markt und Creatives. Kurze regelmäßige Abstimmungen für schnelle Priorisierung ohne Stapel stiller Aufgaben."
+      }
+    }
+  },
+  "sales": {
+    "imageAlt": "Silpo Fallstudie",
+    "breadcrumbProjects": "Projekte",
+    "breadcrumbCurrent": "Silpo",
+    "badge": "Einzelhandel",
+    "titleHighlight": "Umsatzwachstum",
+    "titleMetric": "×3.4",
+    "titleSubtitle": "in 8 Monaten Arbeit",
+    "description": "Wie wir einem regionalen Restaurant halfen, bundesweit zu skalieren — von null auf 40.000 Follower und 2,3 Mio. monatliche Reichweite.",
+    "priceLabel": "Preis",
+    "priceValue": "300 € / Monat",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "faq": {
+    "title": "FAQ",
+    "items": {
+      "1": {
+        "question": "Wie schnell starten Sie die Bewerbung nach Projektbeginn?",
+        "answer": "Ein Basis-Launch dauert meist 3–7 Werktage: Briefing, Analytics-Check, Hypothesen und erste Kampagnen. Komplexe Projekte mit vielen Kanälen können 10–14 Tage brauchen."
+      },
+      "2": {
+        "question": "Welche Werbekanäle nutzen Sie?",
+        "answer": "Wir wählen Kanäle nach Zielsetzung: Meta Ads, Google Ads, TikTok Ads, SEO, E-Mail-Marketing und Content. Pro Projekt entsteht ein Mix mit bestem CPL und Verkaufsergebnis."
+      },
+      "3": {
+        "question": "Wie messen Sie die Werbewirkung?",
+        "answer": "Vor dem Start legen wir KPIs fest: CPL, CPA, ROAS, CAC, Konversion zu Lead und Verkauf. Danach Reports pro Woche und Monat – Entscheidungen auf Basis von Zahlen."
+      },
+      "4": {
+        "question": "Arbeiten Sie nur mit großen Unternehmen?",
+        "answer": "Nein. Wir arbeiten mit Unternehmen jeder Größe – von lokalen Betrieben bis zu internationalen Projekten. Strategie und Budget passen sich Ihrer Wachstumsphase an."
+      },
+      "5": {
+        "question": "Wer betreut mein Projekt im Alltag?",
+        "answer": "Ein fester Marketing-Verantwortlicher steuert das Projekt mit Spezialisten für Targeting, Suchmaschinenwerbung, Design, Analytics und Content. Zuständigkeiten und Termine sind klar."
+      },
+      "6": {
+        "question": "Kann man mit einer Testphase starten?",
+        "answer": "Ja. Wir können mit einer Testphase beginnen, Hypothesen prüfen und funktionierende Setups finden. Danach folgen ein skalierbarer Plan und transparente Prognosen."
+      }
+    }
+  },
+  "footer": {
+    "quoteBold": "Wir sind bereit, für Sie zu arbeiten,",
+    "quoteRest": "damit Sie das beste Ergebnis zu einem fairen Preis erhalten",
+    "memberAlt": "Teammitglied",
+    "contactButton": "Kontaktieren Sie uns",
+    "brandTitle": "MARKETING LOGO",
+    "about": "Umfassende Geschäftsförderung. Wir arbeiten weltweit mit Unternehmen zusammen – von Start-ups bis zu Großkonzernen.",
+    "badges": {
+      "google": "Google Partner",
+      "meta": "Meta Partner",
+      "ssl": "SSL Secure"
+    },
+    "navTitle": "Navigation",
+    "navLinks": {
+      "team": "Team",
+      "process": "Prozess",
+      "services": "Dienstleistungen",
+      "projects": "Projekte",
+      "sitemap": "Sitemap"
+    },
+    "contactsTitle": "Kontakte",
+    "contacts": {
+      "writeUs": "Schreiben Sie uns",
+      "phone": "+9 999 99 99 99",
+      "instagram": "Inst: @Info",
+      "telegram": "Telegram: @Info",
+      "viber": "Viber: @Info"
+    },
+    "docsTitle": "Dokumente",
+    "docs": {
+      "privacy": "Datenschutzerklärung",
+      "terms": "Nutzungsbedingungen",
+      "company": "Firmenangaben"
+    },
+    "copyright": "© 2026 INFO. Alle Rechte vorbehalten.",
+    "tagline": "Umfassende Geschäftsförderung"
+  },
+  "adminLogin": {
+    "title": "Admin-Anmeldung",
+    "subtitle": "Zugang zum Marketing-Dashboard",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "submit": "Anmelden",
+    "themeLight": "Helles Design",
+    "themeDark": "Dunkles Design",
+    "backToSite": "Zur Website",
+    "error": "E-Mail und Passwort eingeben.",
+    "hint": "Demo: beliebige E-Mail und Passwort."
+  }
+}

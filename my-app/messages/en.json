@@ -1,0 +1,377 @@
+{
+  "header": {
+    "connect": "Contact",
+    "projects": "Projects",
+    "services": "Services",
+    "team": "Team"
+  },
+  "hero": {
+    "button": "Contact us",
+    "span": "299 €/month",
+    "text": "We take this task completely upon ourselves",
+    "title": "Comprehensive promotion of your business from"
+  },
+  "workers": {
+    "nextSlide": "Next slide",
+    "openProfile": "Open profile",
+    "showMore": "Show more",
+    "title": "Specialists",
+    "items": {
+      "anastasia": {
+        "name": "Anastasia Yakovleva",
+        "role": "Designer",
+        "experience": "3 years of experience"
+      },
+      "alexey": {
+        "name": "Alexey Petrov",
+        "role": "Targeting specialist",
+        "experience": "5 years of experience"
+      },
+      "maria": {
+        "name": "Maria Sokolova",
+        "role": "SMM specialist",
+        "experience": "4 years of experience"
+      },
+      "arina": {
+        "name": "Arina Kuznetsova",
+        "role": "SEO specialist",
+        "experience": "7 years of experience"
+      },
+      "vyacheslav": {
+        "name": "Vyacheslav Makushev",
+        "role": "Targeting specialist",
+        "experience": "4 years of experience"
+      },
+      "ivan": {
+        "name": "Ivan Tikhonov",
+        "role": "Manager",
+        "experience": "6 years of experience"
+      },
+      "elizaveta": {
+        "name": "Elizaveta Orlova",
+        "role": "Content manager",
+        "experience": "5 years of experience"
+      }
+    }
+  },
+  "servicesSection": {
+    "title": "Services",
+    "sections": {
+      "popular": {
+        "title": "Most frequent orders",
+        "items": {
+          "targetedMetaVkTiktok": "Targeted ads for Meta, VK, TikTok",
+          "contextGoogleYandex": "Context ads in Google Ads / Yandex Direct",
+          "seoPromotion": "Website SEO promotion",
+          "corporateWebsite": "Corporate website development",
+          "smmManagement": "SMM social media management",
+          "adCreatives": "Advertising creatives production",
+          "copywriting": "Copywriting (texts for website and ads)",
+          "analyticsSetup": "Analytics setup (Google Analytics, Yandex Metrica)",
+          "emailMarketing": "Email marketing (campaign setup)"
+        }
+      },
+      "middle": {
+        "title": "Medium order frequency",
+        "items": {
+          "websiteRedesign": "Website redesign",
+          "uxUiDesign": "UX/UI design",
+          "abTesting": "A/B testing for ads and landing pages",
+          "marketplacePromotion": "Marketplace promotion",
+          "onlineStoreCreation": "Online store development",
+          "influencerAds": "Influencer marketing (blogger selection)",
+          "videoProduction": "Video ads / video production",
+          "crmAutomation": "CRM and automation setup",
+          "localSeo": "Local SEO (maps, Google Business Profile)"
+        }
+      },
+      "rare": {
+        "title": "Less frequent but regular orders",
+        "items": {
+          "logoDesign": "Logo design",
+          "brandIdentity": "Brand identity design",
+          "prPublications": "PR publications in media",
+          "brandbook": "Brandbook",
+          "marketingResearch": "Marketing research",
+          "businessPhotography": "Business photography",
+          "presentationDesign": "Presentation design",
+          "chatbots": "Chatbots for website / messengers",
+          "quizLandingPages": "Quiz landing page development"
+        }
+      }
+    }
+  },
+  "cardSection": {
+    "left": {
+      "titleTop": "Not sure",
+      "titleBottom": "where to start?",
+      "description": "If you are not sure who you want to hire for your team yet, leave a request to talk with a marketer.",
+      "free": "It's free.",
+      "illustrationAlt": "Services illustration",
+      "tags": {
+        "designBranding": "Design and branding",
+        "websiteCreation": "Website creation",
+        "smm": "SMM",
+        "copywriting": "Copywriting",
+        "emailMarketing": "Email marketing",
+        "seoPromotion": "Website SEO promotion",
+        "targetedAds": "Targeted advertising",
+        "googleYandexAds": "Google Ads / Yandex Direct",
+        "andMore": "And so on..."
+      }
+    },
+    "form": {
+      "title": "Contact us",
+      "nameLabel": "Your name:",
+      "emailLabel": "Email:",
+      "contactMethodLabel": "Contact method",
+      "telegramOption": "Telegram",
+      "whatsappOption": "WhatsApp",
+      "contactValueLabel": "Your Telegram:",
+      "contactPlaceholder": "@username or phone number",
+      "submit": "Get consultation",
+      "submitting": "Sending..."
+    },
+    "social": {
+      "telegram": "Telegram",
+      "viber": "Viber"
+    },
+    "errors": {
+      "requiredFields": "Fill in name, email, and contact method.",
+      "submitFailed": "Failed to send request.",
+      "unknown": "Form submission error."
+    },
+    "success": {
+      "submitted": "Request sent. It is already in admin."
+    }
+  },
+  "commentSection": {
+    "prevReview": "Previous review",
+    "nextReview": "Next review",
+    "items": {
+      "first": {
+        "badge": "Verified review",
+        "name": "Yerlan T.",
+        "subtitle": "Brand founder",
+        "title": "The team boosted our sales",
+        "body": "We came in without a clear strategy and in two months got a steady flow of leads. The team onboarded quickly, explained every step, and took full ownership of marketing.",
+        "rating": "5.0"
+      },
+      "second": {
+        "badge": "Verified review",
+        "name": "Maria K.",
+        "subtitle": "Project lead",
+        "title": "Clear, transparent, and practical",
+        "body": "I liked the structured approach from analytics to ad creatives. We see the metrics, understand where the budget goes, and get results without extra routine in-house.",
+        "rating": "5.0"
+      }
+    }
+  },
+  "smm": {
+    "breadcrumbServices": "Services",
+    "breadcrumbCurrent": "SMM",
+    "titleHighlight": "SMM marketing",
+    "titleRest": "that drives your sales",
+    "description": "We build engaged communities around your brand, grow organic traffic, and turn followers into buyers—systematically, without fake engagement.",
+    "contactButton": "Contact us",
+    "calculatorAlt": "Calculator",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "design": {
+    "imageAlt": "Anastasia Yakovleva portrait",
+    "breadcrumbTeam": "Team",
+    "breadcrumbName": "Anastasia Yakovleva",
+    "titleHighlight": "SMM designer",
+    "titleSecondLine": "& Content maker",
+    "description": "Shapes the brand’s visual voice—from strategy down to the pixel. Turns ideas into content people remember and share.",
+    "contactButton": "Contact us",
+    "calculatorAlt": "Calculator",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "work": {
+    "title": "How do we work?",
+    "illustrationAlt": "Marketer",
+    "stepBadge": "Step {step}",
+    "steps": {
+      "1": {
+        "title": "Analysis",
+        "text": "In-depth analysis of the data gathered by our analyst"
+      },
+      "2": {
+        "title": "Position",
+        "text": "Highlighting the company's strengths and USP vs competitors"
+      },
+      "3": {
+        "title": "Strategy",
+        "text": "Building a promotion plan for the company"
+      },
+      "4": {
+        "title": "Launch",
+        "text": "Launching and testing advertising activities"
+      },
+      "5": {
+        "title": "Growth",
+        "text": "Scaling advertising campaigns"
+      }
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "allProjects": "All projects",
+    "priceLabel": "Price",
+    "openProject": "Open project",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "items": {
+      "silpo": {
+        "title": "Silpo",
+        "category": "Retail",
+        "description": "End-to-end promotion for a major supermarket chain on Instagram and Google",
+        "price": "€300 / month"
+      }
+    }
+  },
+  "features": {
+    "iconAlt": "Feature icon",
+    "items": {
+      "1": {
+        "badge": "Analytics",
+        "title": "Growth by metrics",
+        "description": "We tracked core KPIs weekly: engagement, reach, cost per lead, and ad contribution to revenue. We reallocated budget, shut down weak ad sets, and scaled what consistently hit CPL and ROAS targets."
+      },
+      "2": {
+        "badge": "Content",
+        "title": "Steady reach",
+        "description": "We built a content calendar—series, stories, reels, and feed posts mapped to funnel stages. We kept a steady publishing cadence and DM handling so organic reach grew without sharp drops and kept trust between paid pushes."
+      },
+      "3": {
+        "badge": "Ads",
+        "title": "Budget optimization",
+        "description": "We launched hypotheses with small budgets and scaled only when metrics stayed predictable. Retargeting and lookalikes were added in stages after events were set up and data quality in analytics checked out."
+      },
+      "4": {
+        "badge": "Team",
+        "title": "Transparent reporting",
+        "description": "Every week: a short report with numbers, takeaways, and next sprint priorities. Commitments were recorded as tasks so clients always knew what was done, in progress, and why priorities shifted."
+      }
+    }
+  },
+  "info": {
+    "title": "Project details",
+    "items": {
+      "1": {
+        "title": "Goal",
+        "body": "The goal wasn’t just polished social media—it was a system: attract attention, retain the audience, and move people to a goal action from follower to lead or purchase. Organic and paid had to reinforce each other, not compete, and avoid diluting the brand with mixed messages."
+      },
+      "2": {
+        "title": "Approach",
+        "body": "We started with a channel and analytics audit: events on site and in ad accounts, the full funnel, existing creatives and landing pages. Then we built a unified content engine and campaigns with clear hypotheses. Each stage tested offers, formats, and visuals to see what resonates with your audience—not generic benchmarks."
+      },
+      "3": {
+        "title": "Outcome",
+        "body": "Over time both reach and traffic quality improved: leads became steadier, not sporadic spikes. We gradually increased spend on proven ad sets and cut what didn’t deliver sustainable impact—scaling without chaotic budget growth."
+      },
+      "4": {
+        "title": "Reporting",
+        "body": "Clients got more than screenshots: a clear picture of what changed, what metrics moved, what we plan next, and risks we see in the market and creatives. Short regular syncs helped reprioritize quickly without a backlog of silent tasks."
+      }
+    }
+  },
+  "sales": {
+    "imageAlt": "Silpo case study",
+    "breadcrumbProjects": "Projects",
+    "breadcrumbCurrent": "Silpo",
+    "badge": "Retail",
+    "titleHighlight": "Sales growth",
+    "titleMetric": "×3.4",
+    "titleSubtitle": "in 8 months of work",
+    "description": "How we helped a regional restaurant scale nationally—from zero to 40,000 followers and 2.3M monthly reach.",
+    "priceLabel": "Price",
+    "priceValue": "€300 / month",
+    "socialInstagram": "Instagram",
+    "socialTelegram": "Telegram",
+    "socialViber": "Viber"
+  },
+  "faq": {
+    "title": "FAQ",
+    "items": {
+      "1": {
+        "question": "How quickly do you launch campaigns after we start?",
+        "answer": "Usually a basic launch takes 3-7 business days: we gather inputs, check analytics, form hypotheses, and launch the first ad sets. Complex projects with many channels can take up to 10-14 days."
+      },
+      "2": {
+        "question": "Which advertising channels do you use?",
+        "answer": "We pick channels for the goal: Meta Ads, Google Ads, TikTok Ads, SEO, email marketing, and content. Each project gets a mix that delivers the best cost per lead and sales outcome."
+      },
+      "3": {
+        "question": "How do you measure ad performance?",
+        "answer": "We lock KPIs before launch: CPL, CPA, ROAS, CAC, and conversion to lead and sale. Then we report weekly and monthly so you see trends and decide based on data, not guesses."
+      },
+      "4": {
+        "question": "Do you only work with large companies?",
+        "answer": "No. We work with businesses of all sizes—from small local companies to international projects. Strategy and budget adapt to your growth stage."
+      },
+      "5": {
+        "question": "Who actually runs my project?",
+        "answer": "A dedicated marketer owns the project with specialists for targeting, paid search, design, analytics, and content. You always know who owns each task and deadline."
+      },
+      "6": {
+        "question": "Can we start with a trial period?",
+        "answer": "Yes. We can start with a testing phase to validate hypotheses and find winning setups. After the test we build a scalable plan and a clear forecast for further growth."
+      }
+    }
+  },
+  "footer": {
+    "quoteBold": "We're ready to work for you,",
+    "quoteRest": "so you get the best outcome at a fair price",
+    "memberAlt": "Team member",
+    "contactButton": "Contact us",
+    "brandTitle": "MARKETING LOGO",
+    "about": "End-to-end business promotion. We work with companies worldwide—from startups to large enterprises.",
+    "badges": {
+      "google": "Google Partner",
+      "meta": "Meta Partner",
+      "ssl": "SSL Secure"
+    },
+    "navTitle": "Navigation",
+    "navLinks": {
+      "team": "Team",
+      "process": "Process",
+      "services": "Services",
+      "projects": "Projects",
+      "sitemap": "Site map"
+    },
+    "contactsTitle": "Contacts",
+    "contacts": {
+      "writeUs": "Write to us",
+      "phone": "+9 999 99 99 99",
+      "instagram": "Inst: @Info",
+      "telegram": "Telegram: @Info",
+      "viber": "Viber: @Info"
+    },
+    "docsTitle": "Documents",
+    "docs": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of use",
+      "company": "Company details"
+    },
+    "copyright": "© 2026 INFO. All rights reserved.",
+    "tagline": "End-to-end business promotion"
+  },
+  "adminLogin": {
+    "title": "Admin login",
+    "subtitle": "Marketing dashboard access",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign in",
+    "themeLight": "Light theme",
+    "themeDark": "Dark theme",
+    "backToSite": "Back to site",
+    "error": "Enter email and password.",
+    "hint": "Demo: any email and password will sign you in."
+  }
+}

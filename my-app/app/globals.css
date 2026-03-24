@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --design-title: #18181b;
+  --design-text: #1E1E1E;
+  --design-muted: #71717a;
+  --design-accent: #f5d58d;
+  --design-btn: #acc2fd;
+  --design-btn-hover: #9fb8fc;
+  --team-surface: #f1f0ee;
+  --hero-button: #1E1E1E;
+  --header-bg : #F9F9F9;
+
+  --hero-span:#f5c765;
+
+  --workers-title: #1E1E1E;
+  --workers-bg: #F9F9F9;
+  --workers-text: #1E1E1E;
+
+
+  --services-bg: #F1F0EE;
+  --services-title: #1E1E1E;
+  --services-text-bg: #FFFFFF;
+
+  --card-input-bg: #f1f1f1;
+
+  --projects-span-bg: #EFEFEF;
+
+  --footer-bg-top: #F3F3F3;
+}
+
+html.dark {
+  --header-bg : #1E1E1E;
+  --background: 
+  #1E1E1E;
+  --foreground: #F9F9F9;
+
+  --hero-button: #1E1E1E;
+
+  --design-title: #F9F9F9;
+  --design-text: rgb(249 249 249 / 80%);
+  --design-muted: #a1a1aa;
+  --design-accent: #7a6430;
+  --design-btn: #5f77b8;
+  --design-btn-hover: #5169aa;
+  --team-surface: #2a2a2a;
+
+  --hero-span:#464646;
+
+  --workers-title: #F9F9F9;
+  --workers-bg: #282828;
+  --workers-text: #F9F9F9;
+
+  --services-bg: #282828;
+  --services-title: #F9F9F9;
+  --services-text-bg: #1E1E1E;
+
+  --card-input-bg: #323232;
+
+  --projects-span-bg: #464646;
+   
+  --footer-bg-top: #1C1C1C;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
