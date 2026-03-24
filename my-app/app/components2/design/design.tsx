@@ -3,9 +3,11 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { useSocialIconSrc } from "@/lib/social-icons";
 
 export default function Design() {
   const t = useTranslations("design");
+  const icons = useSocialIconSrc();
 
   return (
     <section className="relative pb-12 pt-6 md:pb-16">
@@ -66,39 +68,21 @@ export default function Design() {
             aria-label={t("socialInstagram")}
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
-            <Image
-              src="/svg/Instagram_black.svg"
-              alt=""
-              width={30}
-              height={30}
-              className="dark:invert"
-            />
+            <Image src={icons.instagram} alt="" width={30} height={30} />
           </Link>
           <Link
             href="#"
             aria-label={t("socialTelegram")}
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
-            <Image
-              src="/svg/Telegram_black.svg"
-              alt=""
-              width={30}
-              height={30}
-              className="dark:invert"
-            />
+            <Image src={icons.telegram} alt="" width={30} height={30} />
           </Link>
           <Link
             href="#"
             aria-label={t("socialViber")}
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
-            <Image
-              src="/svg/Viber_black.svg"
-              alt=""
-              width={30}
-              height={30}
-              className="dark:invert"
-            />
+            <Image src={icons.viber} alt="" width={30} height={30} />
           </Link>
         </div>
       </div>

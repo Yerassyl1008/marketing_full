@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { socialIconSrc } from "@/lib/social-icons";
 
 const languages = ["ru", "en", "fr", "ar", "de"] as const;
 // const navLinks = [
@@ -266,9 +267,24 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
             </button>
 
             <div className="flex items-center gap-2">
-              <Image src="/svg/Instagram_black.svg" alt="Instagram" width={24} height={24} />
-              <Image src="/svg/Telegram_black.svg" alt="Telegram" width={24} height={24} />
-              <Image src="/svg/Viber_black.svg" alt="Viber" width={24} height={24} />
+              <Image
+                src={socialIconSrc(isDark, "instagram")}
+                alt="Instagram"
+                width={24}
+                height={24}
+              />
+              <Image
+                src={socialIconSrc(isDark, "telegram")}
+                alt="Telegram"
+                width={24}
+                height={24}
+              />
+              <Image
+                src={socialIconSrc(isDark, "viber")}
+                alt="Viber"
+                width={24}
+                height={24}
+              />
             </div>
           </div>
         </div>

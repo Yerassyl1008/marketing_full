@@ -128,8 +128,10 @@
       "contactMethodLabel": "Способ связи",
       "telegramOption": "Телега",
       "whatsappOption": "Вацап",
-      "contactValueLabel": "Ваш Telegram:",
-      "contactPlaceholder": "@username или номер телефона",
+      "contactValueLabelTelegram": "Ваш Telegram:",
+      "contactValueLabelWhatsapp": "Ваш номер WhatsApp:",
+      "contactPlaceholderTelegram": "@username",
+      "contactPlaceholderWhatsapp": "Номер телефона",
       "submit": "Получить консультацию",
       "submitting": "Отправка..."
     },

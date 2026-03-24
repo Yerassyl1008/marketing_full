@@ -1,7 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { useSocialIconSrc } from "@/lib/social-icons";
+
 export default function Confidentel() {
+  const icons = useSocialIconSrc();
   return (
     <section className="relative mt-6 pb-12 pt-2 md:pb-16 md:pt-4">
       <div className="w-full pt-6 md:max-w-[980px] md:pt-8">
@@ -36,13 +41,13 @@ export default function Confidentel() {
 
         <div className="mt-12 flex items-center gap-2 md:mt-16">
           <Link href="#" aria-label="Instagram">
-            <Image src="/svg/Instagram_black.svg" alt="Instagram" width={26} height={26} />
+            <Image src={icons.instagram} alt="Instagram" width={26} height={26} />
           </Link>
           <Link href="#" aria-label="Telegram">
-            <Image src="/svg/Telegram_black.svg" alt="Telegram" width={26} height={26} />
+            <Image src={icons.telegram} alt="Telegram" width={26} height={26} />
           </Link>
           <Link href="#" aria-label="Viber">
-            <Image src="/svg/Viber_black.svg" alt="Viber" width={26} height={26} />
+            <Image src={icons.viber} alt="Viber" width={26} height={26} />
           </Link>
         </div>
     </section>

@@ -128,8 +128,10 @@
       "contactMethodLabel": "Kontaktmethode",
       "telegramOption": "Telegram",
       "whatsappOption": "WhatsApp",
-      "contactValueLabel": "Ihr Telegram:",
-      "contactPlaceholder": "@username oder Telefonnummer",
+      "contactValueLabelTelegram": "Ihr Telegram:",
+      "contactValueLabelWhatsapp": "Ihre WhatsApp-Nummer:",
+      "contactPlaceholderTelegram": "@username",
+      "contactPlaceholderWhatsapp": "Telefonnummer",
       "submit": "Beratung erhalten",
       "submitting": "Wird gesendet..."
     },

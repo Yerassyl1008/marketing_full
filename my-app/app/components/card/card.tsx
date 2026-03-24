@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
+import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 const tagIds = [
   "designBranding",
   "websiteCreation",
@@ -33,18 +34,6 @@ export default function Card({ embedded = false }: CardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
-
-  useEffect(() => {
-    const root = document.documentElement;
-    const syncTheme = () => setIsDarkTheme(root.classList.contains("dark"));
-
-    syncTheme();
-
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,7 +99,7 @@ export default function Card({ embedded = false }: CardProps) {
             <h3 className="mb-3 text-3xl font-bold leading-tight text-[var(--foreground)] sm:text-4xl">
               <span className="rounded-full bg-[var(--hero-span)]">
                 {t("left.titleTop")}
-              </span >
+              </span>
               <br />{t("left.titleBottom")}
             </h3>
             <p className="max-w-md text-lg font-medium leading-7 text-[var(--foreground)]">
@@ -151,7 +140,10 @@ export default function Card({ embedded = false }: CardProps) {
               {t("form.title")}
             </h3>
 
-            <label className="mb-2 block text-base text-zinc-600 sm:text-lg" htmlFor="name">
+            <label
+              className="mb-2 block text-base text-[var(--design-muted)] sm:text-lg"
+              htmlFor="name"
+            >
               {t("form.nameLabel")}
             </label>
             <input
@@ -159,10 +151,13 @@ export default function Card({ embedded = false }: CardProps) {
               type="text"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              className="mb-4 w-full rounded-2xl border border-zinc-500 bg-[var(--card-input-bg)] px-3 py-2.5 text-base outline-none transition focus:border-zinc-700 sm:px-4 sm:text-lg"
+              className="mb-4 w-full rounded-2xl border border-[color:var(--foreground)]/20 bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] sm:px-4 sm:text-lg"
             />
 
-            <label className="mb-2 block text-base text-zinc-600 sm:text-lg" htmlFor="email">
+            <label
+              className="mb-2 block text-base text-[var(--design-muted)] sm:text-lg"
+              htmlFor="email"
+            >
               {t("form.emailLabel")}
             </label>
             <input
@@ -171,59 +166,87 @@ export default function Card({ embedded = false }: CardProps) {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="example@gmail.com"
-              className="mb-4 w-full rounded-2xl border border-zinc-300 bg-[var(--card-input-bg)] px-3 py-2.5 text-base outline-none transition focus:border-zinc-500 sm:px-4 sm:text-lg"
+              className="mb-4 w-full rounded-2xl border border-[color:var(--foreground)]/20 bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] sm:px-4 sm:text-lg"
             />
 
-            <p className="mb-2 text-base text-zinc-600 sm:text-lg">{t("form.contactMethodLabel")}</p>
+            <p className="mb-2 text-base text-[var(--design-muted)] sm:text-lg">
+              {t("form.contactMethodLabel")}
+            </p>
             <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <button
                 type="button"
                 onClick={() => setContactType("telegram")}
-                className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-sm sm:text-base ${
+                className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-left text-sm transition sm:text-base ${
                   contactType === "telegram"
-                    ? "border-zinc-500 text-zinc-800"
-                    : "border-zinc-300 text-zinc-500"
+                    ? "border-[var(--design-btn)] bg-[var(--design-btn)]/18 font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-[var(--design-btn)]/35 dark:bg-[var(--design-btn)]/25"
+                    : "border-[color:var(--foreground)]/22 bg-[var(--card-input-bg)] font-medium text-[var(--foreground)]/90 hover:border-[color:var(--foreground)]/40"
                 }`}
               >
-                <span className="flex items-center gap-2">
+                <span className="flex min-w-0 items-center gap-2">
                   <Image
-                    src="/svg/Telegram_black.svg"
-                    alt={t("social.telegram")}
+                    src={socialIconSrc(isDarkTheme, "telegram")}
+                    alt=""
                     width={20}
                     height={20}
+                    className="shrink-0"
                   />
-                  {t("form.telegramOption")}
+                  <span className="truncate">{t("form.telegramOption")}</span>
                 </span>
                 <span
-                  className={`h-4 w-4 rounded-full border-2 ${
-                    contactType === "telegram" ? "border-zinc-500 bg-zinc-900" : "border-zinc-400"
+                  className={`ml-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${
+                    contactType === "telegram"
+                      ? "border-[var(--design-btn)] bg-[var(--design-btn)]"
+                      : "border-[color:var(--foreground)]/35 bg-transparent"
                   }`}
-                />
+                  aria-hidden
+                >
+                  {contactType === "telegram" ? (
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                  ) : null}
+                </span>
               </button>
               <button
                 type="button"
                 onClick={() => setContactType("whatsapp")}
-                className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-sm sm:text-base ${
+                className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-left text-sm transition sm:text-base ${
                   contactType === "whatsapp"
-                    ? "border-zinc-500 text-zinc-800"
-                    : "border-zinc-300 text-zinc-500"
+                    ? "border-[var(--design-btn)] bg-[var(--design-btn)]/18 font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-[var(--design-btn)]/35 dark:bg-[var(--design-btn)]/25"
+                    : "border-[color:var(--foreground)]/22 bg-[var(--card-input-bg)] font-medium text-[var(--foreground)]/90 hover:border-[color:var(--foreground)]/40"
                 }`}
               >
-                <span className="flex items-center gap-2">
-                  <Image src="/svg/Viber_black.svg" alt={t("social.viber")} width={20} height={20} />
-                  {t("form.whatsappOption")}
+                <span className="flex min-w-0 items-center gap-2">
+                  <Image
+                    src={socialIconSrc(isDarkTheme, "viber")}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className="shrink-0"
+                  />
+                  <span className="truncate">{t("form.whatsappOption")}</span>
                 </span>
                 <span
-                  className={`h-4 w-4 rounded-full border-2 ${
-                    contactType === "whatsapp" ? "border-zinc-500 bg-zinc-900" : "border-zinc-400"
+                  className={`ml-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${
+                    contactType === "whatsapp"
+                      ? "border-[var(--design-btn)] bg-[var(--design-btn)]"
+                      : "border-[color:var(--foreground)]/35 bg-transparent"
                   }`}
-                />
+                  aria-hidden
+                >
+                  {contactType === "whatsapp" ? (
+                    <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                  ) : null}
+                </span>
               </button>
             </div>
 
             <div className="mb-1 flex flex-col items-start justify-between gap-1 sm:flex-row sm:items-center sm:gap-3">
-              <label className="block text-base text-zinc-600 sm:text-lg" htmlFor="tg">
-                {t("form.contactValueLabel")}
+              <label
+                className="block text-base text-[var(--design-muted)] sm:text-lg"
+                htmlFor="tg"
+              >
+                {contactType === "telegram"
+                  ? t("form.contactValueLabelTelegram")
+                  : t("form.contactValueLabelWhatsapp")}
               </label>
               <span className="text-xs leading-tight text-[#ff6f6f] sm:text-sm">
                 {submitError || ""}
@@ -234,9 +257,15 @@ export default function Card({ embedded = false }: CardProps) {
               type="text"
               value={contact}
               onChange={(event) => setContact(event.target.value)}
-              placeholder={t("form.contactPlaceholder")}
-              className={`mb-4 w-full rounded-2xl border bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-zinc-500 outline-none transition sm:px-4 sm:text-lg ${
-                submitError ? "border-[#ff8f8f] focus:border-[#ff6f6f]" : "border-zinc-300 focus:border-zinc-500"
+              placeholder={
+                contactType === "telegram"
+                  ? t("form.contactPlaceholderTelegram")
+                  : t("form.contactPlaceholderWhatsapp")
+              }
+              className={`mb-4 w-full rounded-2xl border bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] sm:px-4 sm:text-lg ${
+                submitError
+                  ? "border-[#ff8f8f] focus:border-[#ff6f6f]"
+                  : "border-[color:var(--foreground)]/20 focus:border-[var(--design-btn)]"
               }`}
             />
 
@@ -244,27 +273,32 @@ export default function Card({ embedded = false }: CardProps) {
               <p className="mb-4 text-sm text-emerald-600">{submitSuccess}</p>
             ) : null}
 
-            <div className="flex flex-col items-stretch justify-between gap-3 sm:flex-row sm:items-end">
+            <div className="flex flex-col items-center justify-between gap-4 sm:flex-row sm:flex-wrap sm:gap-6">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-full border-b-8 border-zinc-900 bg-[#a9bffd] px-4 py-3 text-xl font-medium text-zinc-900 transition-colors hover:bg-[#98b1fb] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:justify-start sm:px-6 sm:text-2xl"
+                className="inline-flex w-full max-w-md items-center justify-center gap-3 rounded-full border-b-8 border-zinc-900 bg-[#a9bffd] px-4 py-3 text-xl font-medium text-zinc-900 transition-colors hover:bg-[#98b1fb] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:max-w-none sm:px-6 sm:text-2xl"
               >
                 <span className="text-xl sm:text-2xl">→</span>
                 {isSubmitting ? t("form.submitting") : t("form.submit")}
               </button>
 
-              <div className="flex items-center justify-center gap-2 self-end text-center sm:self-auto">
-                <Link href="#" aria-label={t("social.telegram")}>
+              <div className="flex items-center justify-center gap-3">
+                <Link href="#" aria-label={t("social.telegram")} className="grid place-items-center">
                   <Image
-                    src="/svg/Telegram_black.svg"
+                    src={socialIconSrc(isDarkTheme, "telegram")}
                     alt={t("social.telegram")}
                     width={30}
                     height={30}
                   />
                 </Link>
-                <Link href="#" aria-label={t("social.viber")}>
-                  <Image src="/svg/Viber_black.svg" alt={t("social.viber")} width={30} height={30} />
+                <Link href="#" aria-label={t("social.viber")} className="grid place-items-center">
+                  <Image
+                    src={socialIconSrc(isDarkTheme, "viber")}
+                    alt={t("social.viber")}
+                    width={30}
+                    height={30}
+                  />
                 </Link>
               </div>
             </div>

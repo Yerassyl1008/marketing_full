@@ -128,8 +128,10 @@
       "contactMethodLabel": "طريقة التواصل",
       "telegramOption": "تيليجرام",
       "whatsappOption": "واتساب",
-      "contactValueLabel": "حساب Telegram الخاص بك:",
-      "contactPlaceholder": "@username أو رقم الهاتف",
+      "contactValueLabelTelegram": "حساب Telegram الخاص بك:",
+      "contactValueLabelWhatsapp": "رقم واتساب الخاص بك:",
+      "contactPlaceholderTelegram": "@username",
+      "contactPlaceholderWhatsapp": "رقم الهاتف",
       "submit": "احصل على استشارة",
       "submitting": "جارٍ الإرسال..."
     },

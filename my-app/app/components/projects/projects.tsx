@@ -42,8 +42,8 @@ export default function Projects() {
                   fill
                   className="object-cover rounded-t-3xl"
                 />
-                <span className="absolute right-2 top-0 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#1e1e1e] px-3 py-1.5 text-xs font-semibold  lg:right-3 lg:px-4 lg:py-2 lg:text-sm">
-                  {project.category}
+                <span className="absolute right-2 top-0 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#1e1e1e] px-3 py-1.5 text-xs font-semibold text-[#FDE3AC] lg:right-3 lg:px-4 lg:py-2 lg:text-sm">
+                  {project.category}    
                 </span>
               </div>
 

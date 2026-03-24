@@ -3,9 +3,11 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { useSocialIconSrc } from "@/lib/social-icons";
 
 export default function Sales() {
   const t = useTranslations("sales");
+  const icons = useSocialIconSrc();
 
   return (
     <section className="relative pb-12 pt-6 md:pb-16 md:pt-8">
@@ -62,31 +64,13 @@ export default function Sales() {
       <div className="mt-6 flex justify-end md:absolute md:bottom-4 md:right-0 md:mt-0">
         <div className="flex items-center gap-2">
           <Link href="#" aria-label={t("socialInstagram")}>
-            <Image
-              src="/svg/Instagram_black.svg"
-              alt=""
-              width={26}
-              height={26}
-            
-            />
+            <Image src={icons.instagram} alt="" width={26} height={26} />
           </Link>
           <Link href="#" aria-label={t("socialTelegram")}>
-            <Image
-              src="/svg/Telegram_black.svg"
-              alt=""
-              width={26}
-              height={26}
-         
-            />
+            <Image src={icons.telegram} alt="" width={26} height={26} />
           </Link>
           <Link href="#" aria-label={t("socialViber")}>
-            <Image
-              src="/svg/Viber_black.svg"
-              alt=""
-              width={26}
-              height={26}
-           
-            />
+            <Image src={icons.viber} alt="" width={26} height={26} />
           </Link>
         </div>
       </div>
