@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2 } from "lucide-react";
 
-import { getPublicApiBaseUrl } from "@/lib/public-api-url";
+import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 
 type ColumnId = "new" | "in_progress" | "success" | "rejected";
 
@@ -37,8 +37,6 @@ interface BoardResponse {
   rejected: Lead[];
 }
 
-const API_BASE_URL = getPublicApiBaseUrl();
-
 /** Удаление через Next API (прокси + JWT), чтобы обойти 404/405 на прямых вызовах к :8000 */
 async function deleteLeadOnServer(leadId: number): Promise<Response> {
   return fetch(`/api/leads/${leadId}`, { method: "DELETE" });
@@ -60,7 +58,7 @@ export function Column() {
     setIsLoading(true);
     setError("");
     try {
-      const response = await fetch(`${API_BASE_URL}/public/leads/board`, { cache: "no-store" });
+      const response = await fetch(`${PUBLIC_LEADS_PROXY_BASE}/board`, { cache: "no-store" });
       if (!response.ok) {
         throw new Error("Не удалось загрузить заявки.");
       }
@@ -103,7 +101,7 @@ export function Column() {
     setDraggedLeadId(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/public/leads/${draggedLeadId}/status`, {
+      const response = await fetch(`${PUBLIC_LEADS_PROXY_BASE}/${draggedLeadId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: columnId }),
@@ -119,7 +117,7 @@ export function Column() {
 
   const saveLeadMessage = async (leadId: number, message: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/public/leads/${leadId}`, {
+      const response = await fetch(`${PUBLIC_LEADS_PROXY_BASE}/${leadId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: message.trim() || null }),

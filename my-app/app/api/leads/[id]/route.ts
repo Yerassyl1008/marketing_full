@@ -1,36 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { getPublicApiBaseUrl } from "@/lib/public-api-url";
+import { getCrmServerBaseUrl, isLocalhostUrl, vercelCrmHint } from "@/lib/crm-server";
 
 export const dynamic = "force-dynamic";
-
-function crmBase(): string {
-  const fromEnv = process.env.CRM_API_URL?.replace(/\/$/, "").trim();
-  if (fromEnv) return fromEnv;
-  return getPublicApiBaseUrl();
-}
-
-function isLocalhostUrl(url: string): boolean {
-  try {
-    const u = new URL(url);
-    return u.hostname === "localhost" || u.hostname === "127.0.0.1";
-  } catch {
-    return false;
-  }
-}
-
-/** На Vercel (и любом облаке) localhost ≠ твой компьютер */
-function vercelCrmHint(): string {
-  if (process.env.VERCEL) {
-    return (
-      "Деплой на Vercel: в Environment Variables задай CRM_API_URL и NEXT_PUBLIC_API_URL на публичный HTTPS URL твоего CRM (Railway, Render, Fly и т.д.). " +
-      "localhost и 127.0.0.1 с Vercel недоступны — это не твой ПК."
-    );
-  }
-  return (
-    "Локально: CRM (uvicorn) должен быть запущен, CRM_API_URL — на него (или host.docker.internal из Docker)."
-  );
-}
 
 /** Кэш JWT от /auth/login (сервер Next), чтобы не логиниться на каждый клик */
 let loginTokenCache: { token: string; at: number } | null = null;
@@ -48,7 +20,7 @@ async function resolveBearerToken(): Promise<string | null> {
   const password = process.env.CRM_ADMIN_PASSWORD?.trim();
   if (!email || !password) return null;
 
-  const CRM = crmBase();
+  const CRM = getCrmServerBaseUrl();
   const res = await fetch(`${CRM}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -83,7 +55,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Invalid id" }, { status: 400 });
   }
 
-  const CRM = crmBase();
+  const CRM = getCrmServerBaseUrl();
   const failures: AttemptResult[] = [];
 
   try {

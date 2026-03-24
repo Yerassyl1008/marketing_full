@@ -5,9 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { getPublicApiBaseUrl } from "@/lib/public-api-url";
-
-const API_BASE_URL = getPublicApiBaseUrl();
+import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 const tagIds = [
   "designBranding",
   "websiteCreation",
@@ -60,7 +58,7 @@ export default function Card({ embedded = false }: CardProps) {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/public/leads`, {
+      const response = await fetch(PUBLIC_LEADS_PROXY_BASE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
