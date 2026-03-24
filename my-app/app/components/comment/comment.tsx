@@ -4,13 +4,13 @@ export default function Comment() {
   const t = useTranslations("commentSection");
 
   return (
-    <section className="mt-8 px-2 py-6 lg:px-6 lg:py-8">
-      <div className="relative">
-        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-2 lg:overflow-visible">
+    <section className="mt-8 min-w-0 px-2 py-6 lg:px-6 lg:py-8">
+      <div className="relative w-full min-w-0">
+        <div className="flex w-full min-w-0 snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-visible pb-2 overscroll-x-contain lg:grid lg:grid-cols-2 lg:overflow-visible lg:pb-0">
           {["first", "second"].map((itemKey) => (
             <article
               key={itemKey}
-              className="relative min-w-full snap-start rounded-3xl bg-[var(--team-surface)] p-4 shadow lg:min-w-0 lg:p-6"
+              className="relative min-w-full shrink-0 snap-start rounded-3xl bg-[var(--team-surface)] p-4 shadow lg:min-w-0 lg:shrink lg:p-6"
             >
               <span className="absolute right-3 top-3 translate-y-0 rounded-full bg-zinc-900 px-3 py-1 text-sm font-semibold text-[#f2d48c] lg:right-4 lg:top-0 lg:-translate-y-1/2">
                 {t(`items.${itemKey}.badge`)}

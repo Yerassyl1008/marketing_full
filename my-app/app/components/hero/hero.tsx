@@ -1,13 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
+/** Положи ролик в `public/video/hero.mp4` (можно добавить `hero.webm` вторым `<source>`). */
+const HERO_VIDEO_MP4 = "/video/Анимация_персонажей_с_цветными_деталями.mp4";
+
 export default function Hero() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [videoBroken, setVideoBroken] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const t = useTranslations("hero");
+
+  const posterSrc = isDarkTheme ? "/img/Mask group (1).png" : "/img/Mask group.png";
 
   useEffect(() => {
     const root = document.documentElement;
@@ -21,21 +28,71 @@ export default function Hero() {
     return () => observer.disconnect();
   }, []);
 
+  const playHeroVideo = useCallback(async () => {
+    const v = videoRef.current;
+    if (!v || videoBroken) return;
+    try {
+      v.muted = false;
+      await v.play();
+    } catch {
+      try {
+        v.muted = true;
+        await v.play();
+      } catch {
+        /* autoplay / decode */
+      }
+    }
+  }, [videoBroken]);
+
+  const pauseHeroVideo = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.pause();
+    try {
+      v.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
   return (
     <section className="relative min-w-0 max-w-full pb-8 sm:pb-12 sm:pt-6 lg:pb-14">
       <div className="mx-auto flex min-w-0 max-w-full flex-col-reverse gap-4 sm:gap-6 lg:flex-row lg:items-center">
-        <div className="flex w-full justify-center lg:w-1/2 lg:flex-shrink-0">
-          <Image
-            src={
-              isDarkTheme
-                ? "/img/Mask group (1).png"
-                : "/img/Mask group.png"
-            }
-            alt="hero"
-            width={550}
-            height={550}
-            className="h-auto w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[450px]"
-          />
+        <div
+          className="flex w-full justify-center lg:w-1/2 lg:flex-shrink-0"
+        >
+          <div
+            className="h-auto w-full max-w-[300px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--design-btn)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:max-w-[420px] lg:max-w-[450px]"
+            tabIndex={0}
+            role="group"
+            aria-label={t("videoAria")}
+            onPointerEnter={playHeroVideo}
+            onPointerLeave={pauseHeroVideo}
+            onFocus={playHeroVideo}
+            onBlur={pauseHeroVideo}
+          >
+            {videoBroken ? (
+              <Image
+                src={posterSrc}
+                alt=""
+                width={550}
+                height={550}
+                className="h-auto w-full"
+              />
+            ) : (
+              <video
+                ref={videoRef}
+                className="block h-auto w-full max-h-[550px] object-contain"
+                poster={posterSrc}
+                playsInline
+                loop
+                preload="auto"
+                onError={() => setVideoBroken(true)}
+              >
+                <source src={HERO_VIDEO_MP4} type="video/mp4" />
+              </video>
+            )}
+          </div>
         </div>
 
         <div className="w-full min-w-0 lg:w-1/2 lg:max-w-[36rem]">
@@ -108,7 +165,6 @@ export default function Hero() {
               height={30}
             />
           </Link>
-          
         </div>
       </div>
     </section>

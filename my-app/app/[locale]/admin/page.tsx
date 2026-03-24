@@ -6,7 +6,7 @@ import { SecondHeader } from "@/app/components2/second-header/second-header";
 import { User } from "@/app/components2/second-header/second-header";
 import { useEffect, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { ADMIN_AUTH_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
+import { ADMIN_ACCESS_TOKEN_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(ADMIN_AUTH_KEY) !== "1") {
+      if (!sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY)?.trim()) {
         router.replace("/admin/login");
         return;
       }
@@ -78,7 +78,7 @@ export default function AdminPage() {
         closeMobile={() => setIsMobileOpen(false)}
         onLogout={() => {
           try {
-            sessionStorage.removeItem(ADMIN_AUTH_KEY);
+            sessionStorage.removeItem(ADMIN_ACCESS_TOKEN_KEY);
           } catch {
             /* ignore */
           }

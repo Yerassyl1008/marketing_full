@@ -21,7 +21,7 @@ export function TeamSurfaceHeaderSection({
   surfaceClassName = "bg-[var(--team-surface)]",
 }: TeamSurfaceHeaderSectionProps) {
   return (
-    <div className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip">
+    <div className="relative left-1/2 w-[100dvw] max-w-[100dvw] -translate-x-1/2 overflow-x-clip">
       <section
         className={`mx-3 rounded-[24px] ${surfaceClassName} pb-8 pt-2 shadow-sm sm:mx-4 md:mx-6 md:rounded-[28px] md:pb-10 md:pt-2 lg:rounded-[32px] ${className}`}
       >

@@ -47,7 +47,7 @@ type AttemptResult = { url: string; method: string; status: number; body: string
  * 2) публичные URL (если в CRM поднят lead_router с delete)
  */
 export async function DELETE(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
   const { id } = await context.params;
@@ -59,7 +59,10 @@ export async function DELETE(
   const failures: AttemptResult[] = [];
 
   try {
-    const token = await resolveBearerToken();
+    const authHeader = request.headers.get("authorization");
+    const bearerFromClient =
+      authHeader?.toLowerCase().startsWith("bearer ") ? authHeader.slice(7).trim() : null;
+    const token = bearerFromClient || (await resolveBearerToken());
 
     const attempts: Array<{
       url: string;

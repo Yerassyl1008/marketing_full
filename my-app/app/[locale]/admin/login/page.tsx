@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { ADMIN_AUTH_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
+import { ADMIN_ACCESS_TOKEN_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
 
 export default function AdminLoginPage() {
   const t = useTranslations("adminLogin");
@@ -11,12 +11,13 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [themeReady, setThemeReady] = useState(false);
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(ADMIN_AUTH_KEY) === "1") {
+      if (sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY)?.trim()) {
         router.replace("/admin");
       }
     } catch {
@@ -46,20 +47,40 @@ export default function AdminLoginPage() {
     }
   }, [isDark, themeReady]);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(false);
     if (!email.trim() || !password.trim()) {
       setError(true);
       return;
     }
+    setSubmitting(true);
     try {
-      sessionStorage.setItem(ADMIN_AUTH_KEY, "1");
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
+      });
+      const data = (await res.json().catch(() => ({}))) as {
+        access_token?: string;
+        detail?: unknown;
+      };
+      if (!res.ok || !data.access_token) {
+        setError(true);
+        return;
+      }
+      try {
+        sessionStorage.setItem(ADMIN_ACCESS_TOKEN_KEY, data.access_token);
+      } catch {
+        setError(true);
+        return;
+      }
+      router.replace("/admin");
     } catch {
       setError(true);
-      return;
+    } finally {
+      setSubmitting(false);
     }
-    router.replace("/admin");
   }
 
   return (
@@ -122,7 +143,8 @@ export default function AdminLoginPage() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-2xl border border-[color:var(--foreground)]/12 bg-[var(--card-input-bg)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] focus:ring-2 focus:ring-[var(--design-btn)]/30 dark:border-white/10"
+                  disabled={submitting}
+                  className="w-full rounded-2xl border border-[color:var(--foreground)]/12 bg-[var(--card-input-bg)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] focus:ring-2 focus:ring-[var(--design-btn)]/30 disabled:opacity-60 dark:border-white/10"
                   placeholder="you@company.com"
                 />
               </div>
@@ -137,7 +159,8 @@ export default function AdminLoginPage() {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-2xl border border-[color:var(--foreground)]/12 bg-[var(--card-input-bg)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] focus:ring-2 focus:ring-[var(--design-btn)]/30 dark:border-white/10"
+                  disabled={submitting}
+                  className="w-full rounded-2xl border border-[color:var(--foreground)]/12 bg-[var(--card-input-bg)] px-4 py-3 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] focus:ring-2 focus:ring-[var(--design-btn)]/30 disabled:opacity-60 dark:border-white/10"
                   placeholder="••••••••"
                 />
               </div>
@@ -150,9 +173,10 @@ export default function AdminLoginPage() {
 
               <button
                 type="submit"
-                className="w-full rounded-2xl bg-[var(--design-btn)] px-4 py-3 text-base font-semibold text-[var(--foreground)] shadow-sm transition hover:bg-[var(--design-btn-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--design-btn)]"
+                disabled={submitting}
+                className="w-full rounded-2xl bg-[var(--design-btn)] px-4 py-3 text-base font-semibold text-[var(--foreground)] shadow-sm transition hover:bg-[var(--design-btn-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--design-btn)] disabled:opacity-60"
               >
-                {t("submit")}
+                {submitting ? "…" : t("submit")}
               </button>
             </form>
 

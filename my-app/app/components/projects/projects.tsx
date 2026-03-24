@@ -15,7 +15,7 @@ export default function Projects() {
   };
 
   return (
-    <section className="mt-8 px-4 py-6 lg:px-8 lg:py-8">
+    <section className="mt-8 min-w-0 px-4 py-6 lg:px-8 lg:py-8">
       <h2 className="text-3xl font-bold text-zinc-800 lg:text-4xl">{t("title")}</h2>
       <div className="mb-6 flex items-center justify-center lg:mb-8 lg:justify-end">
         <button
@@ -27,12 +27,13 @@ export default function Projects() {
         </button>
       </div>
 
-      <div className="relative">
-        <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
+      <div className="relative w-full min-w-0">
+        <div className="overflow-x-auto overflow-y-visible overscroll-x-contain lg:overflow-visible">
+          <div className="flex w-max snap-x snap-mandatory gap-4 pb-2 lg:grid lg:w-full lg:grid-cols-4 lg:overflow-visible lg:pb-0">
           {Array.from({ length: CARD_COUNT }, (_, index) => (
             <article
               key={index}
-              className="min-w-[260px] snap-start rounded-3xl bg-(var(--workers-bg)) shadow lg:min-w-0"
+              className="min-w-[260px] snap-start rounded-3xl bg-[var(--workers-bg)] shadow lg:min-w-0"
             >
               <div className="relative h-44 w-full  rounded-b-3xl rounded-t-3xl">
                 <Image
@@ -55,9 +56,9 @@ export default function Projects() {
                 </p>
 
                 <div className="flex items-end justify-between gap-2">
-                  <div className="flex items-center gap-2 rounded-2xlpx-4 py-2 bg-(var(--projects-span-bg))">
+                  <div className="flex items-center gap-2 rounded-2xl px-4 py-2 bg-[var(--projects-span-bg)]">
                     <p className="text-sm text-zinc-400 lg:text-sm">{t("priceLabel")}</p>
-                    <p className="text-xl font-medium text-(var(--foreground)) lg:text-2xl">
+                    <p className="text-xl font-medium text-[var(--foreground)] lg:text-2xl">
                       {project.price}
                     </p>
                   </div>
@@ -72,6 +73,7 @@ export default function Projects() {
               </div>
             </article>
           ))}
+          </div>
         </div>
 
         <button

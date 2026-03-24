@@ -73,6 +73,10 @@ html.dark {
 
 
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background: var(--background);

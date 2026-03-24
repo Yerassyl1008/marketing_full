@@ -10,7 +10,7 @@ import { TeamSurfaceHeaderSection } from "@/app/components/layout/team-surface-h
 export default function Team() {
   return (
     <>
-    <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-8 px-3 sm:gap-10 sm:px-4 md:px-6 lg:max-w-[1400px]">
+    <main className="mx-auto flex w-full min-w-0 max-w-[1280px] flex-col gap-8 px-3 sm:gap-10 sm:px-4 md:px-6 lg:max-w-[1400px]">
       <TeamSurfaceHeaderSection className="mt-6">
         <Header />
         <Design />

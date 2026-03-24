@@ -74,7 +74,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-4 -mx-3 bg-[#1d1d1f] text-zinc-200 md:-mx-8">
+      <div className="mt-4 -mx-3 bg-[#1d1d1f] text-zinc-200 md:-mx-6 lg:-mx-8">
         <div className="mx-auto max-w-[1400px] px-4 py-6 md:px-8 md:py-8 lg:px-10">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[2.2fr_1fr_1fr_1fr] md:gap-10">
             <div>

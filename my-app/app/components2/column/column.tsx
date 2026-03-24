@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2 } from "lucide-react";
 
+import { ADMIN_ACCESS_TOKEN_KEY } from "@/lib/admin-auth";
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 
 type ColumnId = "new" | "in_progress" | "success" | "rejected";
@@ -37,9 +38,19 @@ interface BoardResponse {
   rejected: Lead[];
 }
 
-/** Удаление через Next API (прокси + JWT), чтобы обойти 404/405 на прямых вызовах к :8000 */
+/** Удаление через Next API (прокси + JWT сессии админа). */
 async function deleteLeadOnServer(leadId: number): Promise<Response> {
-  return fetch(`/api/leads/${leadId}`, { method: "DELETE" });
+  let token: string | null = null;
+  try {
+    token = sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY);
+  } catch {
+    /* ignore */
+  }
+  const headers: HeadersInit = {};
+  if (token?.trim()) {
+    headers.Authorization = `Bearer ${token.trim()}`;
+  }
+  return fetch(`/api/leads/${leadId}`, { method: "DELETE", headers });
 }
 
 export function Column() {

@@ -8,6 +8,43 @@ type ServiceSection = {
   itemIds: string[];
 };
 
+/** Иконки: `often` — самые заказываемые; `middle` / `rare` — отдельные наборы. */
+const SERVICE_ITEM_ICONS: Record<string, string> = {
+  targetedMetaVkTiktok: "/often/trend-up.svg",
+  contextGoogleYandex: "/often/search-normal.svg",
+  seoPromotion: "/often/gps.svg",
+  corporateWebsite: "/often/monitor-mobbile.svg",
+  smmManagement: "/often/mobile.svg",
+  adCreatives: "/often/colors-square.svg",
+  copywriting: "/often/edit.svg",
+  analyticsSetup: "/often/chart-2.svg",
+  emailMarketing: "/often/mobile.svg",
+
+  websiteRedesign: "/middle/designtools.svg",
+  uxUiDesign: "/middle/magicpen.svg",
+  abTesting: "/middle/note-2.svg",
+  marketplacePromotion: "/middle/bag-happy.svg",
+  onlineStoreCreation: "/middle/shopping-cart.svg",
+  influencerAds: "/middle/user-search.svg",
+  videoProduction: "/middle/video-play.svg",
+  crmAutomation: "/middle/setting-2.svg",
+  localSeo: "/middle/location.svg",
+
+  logoDesign: "/rare/brush-4.svg",
+  brandIdentity: "/rare/lamp-on.svg",
+  prPublications: "/rare/clipboard.svg",
+  brandbook: "/rare/menu-board.svg",
+  marketingResearch: "/rare/message-question.svg",
+  businessPhotography: "/rare/camera.svg",
+  presentationDesign: "/rare/ruler%26pen.svg",
+  chatbots: "/rare/device-message.svg",
+  quizLandingPages: "/rare/notification-status.svg",
+};
+
+function serviceIconSrc(itemId: string): string {
+  return SERVICE_ITEM_ICONS[itemId] ?? "/often/edit.svg";
+}
+
 const sections: ServiceSection[] = [
   {
     id: "popular",
@@ -96,14 +133,18 @@ export default function Services() {
                   return (
                     <div
                       key={`${section.id}-${itemId}`}
-                      className={`flex min-h-[112px] min-w-0 flex-col items-start gap-2 rounded-2xl px-3 py-4 md:min-h-16 md:flex-row md:items-center md:gap-2 md:rounded-full ${
+                      className={`flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl px-6 py-4 md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full ${
                         isActive
                           ? "bg-[#9ab5f6] text-[var(--services-title)]"
                           : "bg-[var(--services-text-bg)]  text-[var(--services-title)]"
                       }`}
                     >
-                      <span
-                        className="h-3 w-3 flex-shrink-0 rounded-full border border-zinc-400"
+                      <img
+                        src={serviceIconSrc(itemId)}
+                        alt=""
+                        width={20}
+                        height={20}
+                        className="h-4 w-4 flex-shrink-0 object-contain md:h-5 md:w-5"
                         aria-hidden
                       />
                       <span className="min-w-0 w-full text-xs leading-5 md:text-sm">
