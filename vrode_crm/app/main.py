@@ -16,7 +16,7 @@ logging.basicConfig(level=settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 auth_service = AuthService()
-# dawdwad
+
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):

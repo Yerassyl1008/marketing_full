@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 
+import { getPublicApiBaseUrl } from "@/lib/public-api-url";
+
 export const dynamic = "force-dynamic";
 
 function crmBase(): string {
-  return (
-    process.env.CRM_API_URL?.replace(/\/$/, "") ||
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-    "http://127.0.0.1:8000"
-  );
+  const fromEnv = process.env.CRM_API_URL?.replace(/\/$/, "").trim();
+  if (fromEnv) return fromEnv;
+  return getPublicApiBaseUrl();
 }
 
 function isLocalhostUrl(url: string): boolean {

@@ -5,7 +5,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+import { getPublicApiBaseUrl } from "@/lib/public-api-url";
+
+const API_BASE_URL = getPublicApiBaseUrl();
 const tagIds = [
   "designBranding",
   "websiteCreation",

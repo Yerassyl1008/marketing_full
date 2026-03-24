@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2 } from "lucide-react";
 
+import { getPublicApiBaseUrl } from "@/lib/public-api-url";
+
 type ColumnId = "new" | "in_progress" | "success" | "rejected";
 
 interface Lead {
@@ -35,7 +37,7 @@ interface BoardResponse {
   rejected: Lead[];
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const API_BASE_URL = getPublicApiBaseUrl();
 
 /** Удаление через Next API (прокси + JWT), чтобы обойти 404/405 на прямых вызовах к :8000 */
 async function deleteLeadOnServer(leadId: number): Promise<Response> {
