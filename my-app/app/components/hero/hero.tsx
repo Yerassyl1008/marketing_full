@@ -147,7 +147,7 @@ export default function Hero() {
         <div className="w-full min-w-0 lg:w-1/2 lg:max-w-[36rem]">
           <h2 className="mb-2 text-[26px] font-extrabold leading-[1.15] sm:mb-3 sm:text-3xl sm:leading-tight lg:text-4xl">
             {t("title")}{" "}
-            <span className="inline-block rounded-full bg-[var(--hero-span)] px-2 py-0.5 sm:py-0 lg:px-4">
+            <span className="inline-block rounded-full bg-[#f5c765] px-2 py-0.5 sm:py-0 lg:px-4">
               {t("span")}
             </span>
           </h2>
