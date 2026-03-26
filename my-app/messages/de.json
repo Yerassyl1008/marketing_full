@@ -7,13 +7,15 @@
   },
   "hero": {
     "button": "Kontaktieren Sie uns",
+    "enableSound": "Ton einschalten",
     "span": "299 €/Monat",
     "text": "Wir übernehmen diese Aufgabe vollständig.",
     "title": "Umfassende Förderung Ihres Unternehmens von",
-    "videoAria": "Werbeanimation — mit Maus darüber abspielen (mit Ton)"
+    "videoAria": "Werbeanimation mit Ton"
   },
   "workers": {
     "nextSlide": "Nächste Folie",
+    "prevSlide": "Vorherige Folie",
     "openProfile": "Profil öffnen",
     "showMore": "Mehr anzeigen",
     "title": "Spezialisten",

@@ -7,13 +7,15 @@
   },
   "hero": {
     "button": "Nous contacter",
+    "enableSound": "Activer le son",
     "span": "299 €/mois",
     "text": "Nous prenons entièrement cette tâche en charge.",
     "title": "Promotion complète de votre entreprise à partir de",
-    "videoAria": "Animation promotionnelle — survoler pour lire avec le son"
+    "videoAria": "Animation promotionnelle avec son"
   },
   "workers": {
     "nextSlide": "Diapositive suivante",
+    "prevSlide": "Diapositive précédente",
     "openProfile": "Ouvrir le profil",
     "showMore": "Afficher plus",
     "title": "Spécialistes",

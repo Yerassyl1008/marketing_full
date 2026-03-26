@@ -16,7 +16,7 @@ export default function Projects() {
 
   return (
     <section className="mt-8 min-w-0 px-4 py-6 lg:px-8 lg:py-8">
-      <h2 className="text-3xl font-bold text-zinc-800 lg:text-4xl">{t("title")}</h2>
+      <h2 className="text-3xl font-bold text-[var(--foreground)] lg:text-4xl">{t("title")}</h2>
       <div className="mb-6 flex items-center justify-center lg:mb-8 lg:justify-end">
         <button
           type="button"

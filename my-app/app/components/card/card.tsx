@@ -7,6 +7,10 @@ import { useTranslations } from "next-intl";
 
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
+
+const CARD_ILLUSTRATION_LIGHT = "/img/Frame189(1)1.png";
+const CARD_ILLUSTRATION_DARK = `/img/${encodeURIComponent("Frame 189 (1) 1 (1).png")}`;
+
 const tagIds = [
   "designBranding",
   "websiteCreation",
@@ -26,7 +30,7 @@ type CardProps = {
 
 export default function Card({ embedded = false }: CardProps) {
   const t = useTranslations("cardSection");
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const isDarkTheme = useIsDarkTheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [contactType, setContactType] = useState<"telegram" | "whatsapp">("telegram");
@@ -110,15 +114,11 @@ export default function Card({ embedded = false }: CardProps) {
             <div className="mt-8 rounded-2xl  p-4">
               <div className="mb-4 grid h-[210px] place-items-center rounded-xl">
                 <Image
-                  src={
-                    isDarkTheme
-                      ? "/img/Frame%20189%20(1)%201.jpg"
-                      : "/img/Frame189(1)1.png"
-                  }
+                  src={isDarkTheme ? CARD_ILLUSTRATION_DARK : CARD_ILLUSTRATION_LIGHT}
                   alt={t("left.illustrationAlt")}
                   width={380}
                   height={380}
-                  className={isDarkTheme ? "mb-6 opacity-[0.28]" : "mb-6"}
+                  className="mb-6 h-auto max-h-[330px] w-auto max-w-full object-contain"
                 />
               </div>
 

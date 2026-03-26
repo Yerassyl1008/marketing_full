@@ -5,55 +5,78 @@ import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-/** Положи ролик в `public/video/hero.mp4` (можно добавить `hero.webm` вторым `<source>`). */
-const HERO_VIDEO_MP4 = "/video/";
+import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
+
+const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
+const HERO_VIDEO_DARK_FILE = "hero-dark.mp4";
+
+const HERO_VIDEO_LIGHT_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
+const HERO_VIDEO_DARK_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_DARK_FILE)}`;
+
+const HERO_MEDIA_OUTER =
+  "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
+const HERO_MEDIA_FRAME =
+  "relative aspect-square w-full max-h-[min(70vh,600px)] overflow-hidden rounded-2xl bg-[var(--team-surface)]";
+const HERO_IMAGE_SIZES = "(max-width: 700px) 90vw, 600px";
 
 export default function Hero() {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const isDarkTheme = useIsDarkTheme();
   const [videoBroken, setVideoBroken] = useState(false);
+  const [muted, setMuted] = useState(false);
+  /** Браузер запретил автозвук — нужен клик пользователя. */
+  const [needsSoundGesture, setNeedsSoundGesture] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const t = useTranslations("hero");
 
-  const posterSrc = isDarkTheme ? "/img/Mask group (1).png" : "/img/Mask group.png";
+  /** Постеры для fallback-картинки и атрибута poster у видео. */
+  const posterSrc = isDarkTheme
+    ? `/img/${encodeURIComponent("Mask group (1).png")}`
+    : `/img/${encodeURIComponent("Mask group.png")}`;
 
-  useEffect(() => {
-    const root = document.documentElement;
-    const syncTheme = () => setIsDarkTheme(root.classList.contains("dark"));
+  const heroVideoSrc = isDarkTheme ? HERO_VIDEO_DARK_MP4 : HERO_VIDEO_LIGHT_MP4;
 
-    syncTheme();
-
-    const observer = new MutationObserver(syncTheme);
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-
-    return () => observer.disconnect();
-  }, []);
-
-  const playHeroVideo = useCallback(async () => {
-    const v = videoRef.current;
-    if (!v || videoBroken) return;
-    try {
-      v.muted = false;
-      await v.play();
-    } catch {
-      try {
-        v.muted = true;
-        await v.play();
-      } catch {
-        /* autoplay / decode */
-      }
-    }
-  }, [videoBroken]);
-
-  const pauseHeroVideo = useCallback(() => {
+  const enableSound = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
-    v.pause();
-    try {
-      v.currentTime = 0;
-    } catch {
+    v.muted = false;
+    setMuted(false);
+    setNeedsSoundGesture(false);
+    v.play().catch(() => {
       /* ignore */
-    }
+    });
   }, []);
+
+  useEffect(() => {
+    if (videoBroken) return;
+    const v = videoRef.current;
+    if (!v) return;
+    let cancelled = false;
+    (async () => {
+      v.muted = false;
+      setMuted(false);
+      try {
+        await v.play();
+      } catch {
+        if (cancelled) return;
+        v.muted = true;
+        setMuted(true);
+        setNeedsSoundGesture(true);
+        try {
+          await v.play();
+        } catch {
+          /* decode / policy */
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [videoBroken, isDarkTheme]);
+
+  /** Светлая тема снова показывает видео — сбрасываем ошибку после тёмной/падения. */
+  useEffect(() => {
+    if (!isDarkTheme) setVideoBroken(false);
+  }, [isDarkTheme]);
 
   return (
     <section className="relative min-w-0 max-w-full pb-8 sm:pb-12 sm:pt-6 lg:pb-14">
@@ -61,37 +84,63 @@ export default function Hero() {
         <div
           className="flex w-full justify-center lg:w-1/2 lg:flex-shrink-0"
         >
-          <div
-            className="h-auto w-full max-w-[300px] outline-none focus-visible:ring-2 focus-visible:ring-[var(--design-btn)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] sm:max-w-[420px] lg:max-w-[450px]"
-            tabIndex={0}
-            role="group"
-            aria-label={t("videoAria")}
-            onPointerEnter={playHeroVideo}
-            onPointerLeave={pauseHeroVideo}
-            onFocus={playHeroVideo}
-            onBlur={pauseHeroVideo}
-          >
-            {videoBroken ? (
-              <Image
-                src={posterSrc}
-                alt=""
-                width={550}
-                height={550}
-                className="h-auto w-full"
-              />
-            ) : (
-              <video
-                ref={videoRef}
-                className="block h-auto w-full max-h-[550px] object-contain"
-                poster={posterSrc}
-                playsInline
-                loop
-                preload="auto"
-                onError={() => setVideoBroken(true)}
-              >
-                <source src={HERO_VIDEO_MP4} type="video/mp4" />
-              </video>
-            )}
+          <div className={HERO_MEDIA_OUTER}>
+            <div className={HERO_MEDIA_FRAME}>
+              {videoBroken ? (
+                <Image
+                  src={posterSrc}
+                  alt={t("videoAria")}
+                  fill
+                  sizes={HERO_IMAGE_SIZES}
+                  className="object-contain"
+                  priority
+                />
+              ) : (
+                <div
+                  className={`absolute inset-0 ${needsSoundGesture ? "cursor-pointer" : ""}`}
+                  onClick={() => {
+                    if (needsSoundGesture) enableSound();
+                  }}
+                  onKeyDown={(e) => {
+                    if (needsSoundGesture && (e.key === "Enter" || e.key === " ")) {
+                      e.preventDefault();
+                      enableSound();
+                    }
+                  }}
+                  role={needsSoundGesture ? "button" : undefined}
+                  tabIndex={needsSoundGesture ? 0 : undefined}
+                >
+                  <video
+                    key={heroVideoSrc}
+                    ref={videoRef}
+                    className="h-full w-full object-contain"
+                    aria-label={t("videoAria")}
+                    poster={posterSrc}
+                    src={heroVideoSrc}
+                    muted={muted}
+                    playsInline
+                    loop
+                    preload="auto"
+                    autoPlay
+                    onError={() => setVideoBroken(true)}
+                  />
+                  {needsSoundGesture ? (
+                    <div className="pointer-events-none absolute inset-0 flex items-end justify-center pb-3 sm:pb-4">
+                      <button
+                        type="button"
+                        className="pointer-events-auto rounded-full bg-zinc-900/80 px-4 py-2 text-xs font-semibold text-white shadow-md backdrop-blur-sm sm:text-sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          enableSound();
+                        }}
+                      >
+                        {t("enableSound")}
+                      </button>
+                    </div>
+                  ) : null}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -123,11 +172,7 @@ export default function Hero() {
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
             <Image
-              src={
-                isDarkTheme
-                  ? "/svg/dark/Instagram_black%20(1).svg"
-                  : "/svg/Instagram_black.svg"
-              }
+              src={socialIconSrc(isDarkTheme, "instagram")}
               alt="Instagram"
               width={30}
               height={30}
@@ -139,11 +184,7 @@ export default function Hero() {
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
             <Image
-              src={
-                isDarkTheme
-                  ? "/svg/dark/Telegram_black%20(1).svg"
-                  : "/svg/Telegram_black.svg"
-              }
+              src={socialIconSrc(isDarkTheme, "telegram")}
               alt="Telegram"
               width={30}
               height={30}
@@ -155,11 +196,7 @@ export default function Hero() {
             className="grid place-items-center rounded-full text-[10px] text-white"
           >
             <Image
-              src={
-                isDarkTheme
-                  ? "/svg/dark/Viber_black%20(1).svg"
-                  : "/svg/Viber_black.svg"
-              }
+              src={socialIconSrc(isDarkTheme, "viber")}
               alt="Viber"
               width={30}
               height={30}

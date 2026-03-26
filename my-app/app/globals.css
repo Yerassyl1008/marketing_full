@@ -9,7 +9,7 @@
   --design-accent: #f5d58d;
   --design-btn: #acc2fd;
   --design-btn-hover: #9fb8fc;
-  --team-surface: #f1f0ee;
+  --team-surface: #eeeeeb;
   --hero-button: #1E1E1E;
   --header-bg : #F9F9F9;
 
@@ -31,6 +31,17 @@
   --footer-bg-top: #F3F3F3;
 }
 
+/**
+ * Видео под светлый фон: invert + hue-rotate — «тёмный» вид без перекодирования.
+ * Цвет плоскости внутри кадра задаёт только filter (brightness и т.д.), не background.
+ * background-color — полосы при object-contain; по умолию = рамка героя (--team-surface).
+ * Другой оттенок только для видео: переопределите --hero-video-dark-bg в html.dark.
+ */
+.video-dark {
+  filter: invert(1.7) hue-rotate(180deg) brightness(1.8);
+  /* background-color: ; */
+}
+
 html.dark {
   --header-bg : #1E1E1E;
   --background: 
@@ -46,6 +57,7 @@ html.dark {
   --design-btn: #5f77b8;
   --design-btn-hover: #5169aa;
   --team-surface: #2a2a2a;
+  --hero-video-dark-bg: var(--team-surface);
 
   --hero-span:#464646;
 

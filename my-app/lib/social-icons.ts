@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 /** Синхронизация с `class="dark"` на `<html>` (как в hero). */
 export function useIsDarkTheme(): boolean {
   const [isDark, setIsDark] = useState(false);
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
     const sync = () => setIsDark(root.classList.contains("dark"));
     sync();
