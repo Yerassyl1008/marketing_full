@@ -9,7 +9,8 @@ services:
     rootDir: servers/google-sheets-crm
     # install: см. package.json scripts — при «только npm run build» в UI всё равно подтянутся deps
     buildCommand: (npm ci --no-audit --no-fund || npm install --no-audit --no-fund) && npm run build:compile && npm prune --omit=dev
-    startCommand: npm run start:prod
+    # Пустой Start Command в UI → Render запускает `npm start` (должен быть dist, не tsx)
+    startCommand: npm start
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
