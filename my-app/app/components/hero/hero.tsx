@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
 const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
-const HERO_VIDEO_DARK_FILE = "hero-dark.mp4";
+const HERO_VIDEO_DARK_FILE = "Анимация_персонажей_и_видео.mp4";
 
 const HERO_VIDEO_LIGHT_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
 const HERO_VIDEO_DARK_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_DARK_FILE)}`;
