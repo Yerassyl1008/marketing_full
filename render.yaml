@@ -7,8 +7,8 @@ services:
     runtime: node
     plan: free
     rootDir: servers/google-sheets-crm
-    # Render ставит NODE_ENV=production → без devDeps не ставятся typescript и @types/*
-    buildCommand: npm ci --include=dev && npm run build && npm prune --omit=dev
+    # install: см. package.json scripts — при «только npm run build» в UI всё равно подтянутся deps
+    buildCommand: (npm ci --no-audit --no-fund || npm install --no-audit --no-fund) && npm run build:compile && npm prune --omit=dev
     startCommand: npm run start:prod
     healthCheckPath: /health
     envVars:
