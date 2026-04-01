@@ -92,7 +92,7 @@ npm run start:prod
 
 1. Репозиторий на GitHub/GitLab с этим монорепо.
 2. [Render](https://render.com) → **New** → **Blueprint** → укажи репозиторий, файл `render.yaml` в **корне** репозитория (`marketing/render.yaml`).
-3. Либо **Web Service** вручную: **Root Directory** = `servers/google-sheets-crm`, Build = `npm ci && npm run build`, Start = `npm run start:prod`.
+3. Либо **Web Service** вручную: **Root Directory** = `servers/google-sheets-crm`, Build = `npm ci --include=dev && npm run build && npm prune --omit=dev`, Start = `npm run start:prod`. (На Render часто `NODE_ENV=production`; без `--include=dev` не ставятся `typescript` и `@types/*`, и `tsc` падает.)
 4. Во вкладке **Environment** вставь все секреты из таблицы выше.
 5. Скопируй URL сервиса (например `https://google-sheets-crm.onrender.com`).
 

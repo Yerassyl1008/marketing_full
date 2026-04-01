@@ -122,7 +122,9 @@ export class SheetsMirror {
       spreadsheetId: this.config.spreadsheetId,
       fields: "sheets(properties(sheetId,title),conditionalFormats)",
     });
-    const sh = gr.data.sheets?.find((s) => s.properties?.title === this.config.sheetName);
+    const sh = gr.data.sheets?.find(
+      (s: sheets_v4.Schema$Sheet) => s.properties?.title === this.config.sheetName
+    );
     const sid = sh?.properties?.sheetId;
     if (sid === undefined || sid === null) {
       throw new Error(`Sheet not found: ${this.config.sheetName}`);
@@ -419,8 +421,8 @@ export class SheetsMirror {
       });
       const tabTitles =
         meta.data.sheets
-          ?.map((s) => s.properties?.title)
-          .filter((t): t is string => Boolean(t)) ?? [];
+          ?.map((s: sheets_v4.Schema$Sheet) => s.properties?.title)
+          .filter((t: string | null | undefined): t is string => Boolean(t)) ?? [];
       const tabExists = tabTitles.includes(this.config.sheetName);
       if (!tabExists) {
         return {
@@ -428,7 +430,7 @@ export class SheetsMirror {
           ...base,
           tabTitles,
           tabExists: false,
-          error: `Лист "${this.config.sheetName}" не найден. Есть вкладки: ${tabTitles.map((t) => JSON.stringify(t)).join(", ") || "(пусто)"}. Задай GOOGLE_SHEETS_TAB точно как имя вкладки (регистр важен).`,
+          error: `Лист "${this.config.sheetName}" не найден. Есть вкладки: ${tabTitles.map((t: string) => JSON.stringify(t)).join(", ") || "(пусто)"}. Задай GOOGLE_SHEETS_TAB точно как имя вкладки (регистр важен).`,
         };
       }
       await this.sheets.spreadsheets.values.get({
@@ -456,7 +458,9 @@ export class SheetsMirror {
       spreadsheetId: this.config.spreadsheetId,
     });
     const title = this.config.sheetName;
-    const sheet = meta.data.sheets?.find((s) => s.properties?.title === title);
+    const sheet = meta.data.sheets?.find(
+      (s: sheets_v4.Schema$Sheet) => s.properties?.title === title
+    );
     if (!sheet?.properties?.sheetId && sheet?.properties?.sheetId !== 0) {
       throw new Error(`Sheet tab not found: ${title}`);
     }
