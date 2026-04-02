@@ -144,11 +144,11 @@ function WorkerCard({
 
 /** Мобильные: 2 колонки, карточка на всю ячейку (вплоть до ~320px экрана). */
 const CARD_MOBILE =
-  "flex aspect-square w-full min-w-0 flex-col overflow-hidden rounded-[1.05rem] border border-zinc-200/80 bg-[var(--workers-bg)] shadow-sm min-[360px]:rounded-[1.1rem] sm:rounded-[1.15rem]";
+  "flex aspect-square w-full min-w-0 flex-col overflow-hidden rounded-[1.05rem] border border-zinc-200/80 bg-[var(--workers-bg)] shadow-sm transition-all duration-300 ease-out will-change-transform hover:z-[1] hover:scale-[1.03] hover:border-[var(--design-btn)]/45 hover:shadow-lg hover:shadow-[var(--design-btn)]/12 dark:border-zinc-600/50 dark:hover:border-[var(--design-btn)]/55 dark:hover:shadow-[var(--design-btn)]/18 min-[360px]:rounded-[1.1rem] sm:rounded-[1.15rem]";
 
 /** Десктоп — карусель. */
 const CARD_DESKTOP =
-  "flex aspect-square w-[clamp(200px,min(72vw,260px),260px)] max-w-[260px] shrink-0 flex-col overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-[var(--workers-bg)] shadow-sm";
+  "flex aspect-square w-[clamp(200px,min(72vw,260px),260px)] max-w-[260px] shrink-0 flex-col overflow-hidden rounded-[1.25rem] border border-zinc-200/80 bg-[var(--workers-bg)] shadow-sm transition-all duration-300 ease-out will-change-transform hover:z-[1] hover:scale-[1.03] hover:border-[var(--design-btn)]/45 hover:shadow-lg hover:shadow-[var(--design-btn)]/12 dark:border-zinc-600/50 dark:hover:border-[var(--design-btn)]/55 dark:hover:shadow-[var(--design-btn)]/18";
 
 export default function Workers() {
   const t = useTranslations("workers");

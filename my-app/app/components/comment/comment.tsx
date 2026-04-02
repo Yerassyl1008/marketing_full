@@ -10,7 +10,7 @@ export default function Comment() {
           {["first", "second"].map((itemKey) => (
             <article
               key={itemKey}
-              className="relative min-w-full shrink-0 snap-start rounded-3xl bg-[var(--team-surface)] p-4 shadow lg:min-w-0 lg:shrink lg:p-6"
+              className="relative min-w-full shrink-0 snap-start rounded-3xl bg-[var(--team-surface)] p-4 shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-xl hover:ring-2 hover:ring-[color:var(--foreground)]/10 dark:hover:ring-white/18 lg:min-w-0 lg:shrink lg:p-6"
             >
               <span className="absolute right-3 top-3 translate-y-0 rounded-full bg-zinc-900 px-3 py-1 text-sm font-semibold text-[#f2d48c] lg:right-4 lg:top-0 lg:-translate-y-1/2">
                 {t(`items.${itemKey}.badge`)}

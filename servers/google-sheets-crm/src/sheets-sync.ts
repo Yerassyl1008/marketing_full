@@ -368,6 +368,27 @@ export class SheetsMirror {
     });
   }
 
+  /**
+   * Следующий числовой ID для новой строки — только колонка A (без выгрузки A2:I).
+   * Нужен для POST /public/leads: иначе при большой таблице ответ CRM слишком долгий и Vercel обрывает прокси.
+   */
+  async nextLeadIdFromSheet(): Promise<number> {
+    await this.ensureHeaderRow();
+    const res = await this.sheets.spreadsheets.values.get({
+      spreadsheetId: this.config.spreadsheetId,
+      range: `${this.tabA1}A2:A`,
+    });
+    const rows = res.data.values || [];
+    let max = 0;
+    for (const row of rows) {
+      const cell = row[0];
+      if (cell === undefined || cell === "") continue;
+      const n = Number(String(cell).trim());
+      if (Number.isInteger(n) && n > max) max = n;
+    }
+    return max + 1;
+  }
+
   /** Все заявки с листа (A2:I) — правки менеджера в таблице сразу здесь. */
   async loadAllLeadsParsed(): Promise<LeadRow[]> {
     await this.ensureHeaderRow();

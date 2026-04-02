@@ -33,7 +33,7 @@ export default function Projects() {
           {Array.from({ length: CARD_COUNT }, (_, index) => (
             <article
               key={index}
-              className="min-w-[260px] snap-start rounded-3xl bg-[var(--workers-bg)] shadow lg:min-w-0"
+              className="min-w-[260px] snap-start rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-xl hover:ring-2 hover:ring-[var(--design-btn)]/22 dark:hover:ring-[var(--design-btn)]/35 lg:min-w-0"
             >
               <div className="relative h-44 w-full  rounded-b-3xl rounded-t-3xl">
                 <Image

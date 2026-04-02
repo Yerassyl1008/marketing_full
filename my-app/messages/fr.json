@@ -149,7 +149,7 @@
       "unknown": "Erreur d'envoi du formulaire."
     },
     "success": {
-      "submitted": "Demande envoyée. Elle est déjà dans l'admin."
+      "submitted": "Demande envoyée."
     }
   },
   "commentSection": {

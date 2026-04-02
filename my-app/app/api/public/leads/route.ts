@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { getCrmServerBaseUrl, isLocalhostUrl, vercelCrmHint } from "@/lib/crm-server";
 
 export const dynamic = "force-dynamic";
+/** Vercel: дать прокси дождаться Render + Google (hobby всё равно ~10s max). */
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   const CRM = getCrmServerBaseUrl();

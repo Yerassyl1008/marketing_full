@@ -133,10 +133,10 @@ export default function Services() {
                   return (
                     <div
                       key={`${section.id}-${itemId}`}
-                      className={`flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl px-6 py-4 md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full ${
+                      className={`flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl px-6 py-4 transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:shadow-md md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full ${
                         isActive
-                          ? "bg-[#9ab5f6] text-[var(--services-title)]"
-                          : "bg-[var(--services-text-bg)]  text-[var(--services-title)]"
+                          ? "bg-[#9ab5f6] text-[var(--services-title)] hover:bg-[#8aa4ef] dark:hover:bg-[#aab9f8]"
+                          : "bg-[var(--services-text-bg)] text-[var(--services-title)] hover:bg-zinc-100 hover:ring-2 hover:ring-[var(--design-btn)]/20 dark:hover:bg-[#a1a1aa] dark:hover:ring-[var(--design-btn)]/35"
                       }`}
                     >
                       <img

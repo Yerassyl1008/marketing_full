@@ -20,7 +20,7 @@ import {
   updateLeadFields,
   updateLeadStatus,
 } from "./db.js";
-import { buildBoard, nextLeadId } from "./sheets-parse.js";
+import { buildBoard } from "./sheets-parse.js";
 import { createSheetsClient, SheetsMirror } from "./sheets-sync.js";
 import type { LeadRow } from "./types.js";
 import {
@@ -233,8 +233,7 @@ publicLeads.post("/", formLimiter, async (req, res) => {
 
   try {
     const row = await sheetsOp(async () => {
-      const leads = await mirror!.loadAllLeadsParsed();
-      const id = nextLeadId(leads);
+      const id = await mirror!.nextLeadIdFromSheet();
       const now = new Date().toISOString();
       const lead: LeadRow = {
         id,

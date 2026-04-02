@@ -149,7 +149,7 @@
       "unknown": "Form submission error."
     },
     "success": {
-      "submitted": "Request sent. It is already in admin."
+      "submitted": "Request sent."
     }
   },
   "commentSection": {

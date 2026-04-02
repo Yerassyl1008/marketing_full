@@ -149,7 +149,7 @@
       "unknown": "Fehler beim Senden des Formulars."
     },
     "success": {
-      "submitted": "Anfrage gesendet. Sie ist bereits im Admin."
+      "submitted": "Anfrage gesendet."
     }
   },
   "commentSection": {
