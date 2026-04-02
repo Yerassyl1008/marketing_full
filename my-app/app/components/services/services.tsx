@@ -127,17 +127,10 @@ export default function Services() {
                   isOpenMobile ? "block" : "hidden"
                 } md:block`}
               >
-                {section.itemIds.map((itemId, index) => {
-                  const isActive = section.id === "popular" && index === 0;
-
-                  return (
+                {section.itemIds.map((itemId) => (
                     <div
                       key={`${section.id}-${itemId}`}
-                      className={`flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl px-6 py-4 transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:shadow-md md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full ${
-                        isActive
-                          ? "bg-[#9ab5f6] text-[var(--services-title)] hover:bg-[#8aa4ef] dark:hover:bg-[#aab9f8]"
-                          : "bg-[var(--services-text-bg)] text-[var(--services-title)] hover:bg-zinc-100 hover:ring-2 hover:ring-[var(--design-btn)]/20 dark:hover:bg-[#a1a1aa] dark:hover:ring-[var(--design-btn)]/35"
-                      }`}
+                      className="flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl bg-[var(--services-text-bg)] px-6 py-4 text-[var(--services-title)] shadow-none transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:bg-[#9ab5f6] hover:shadow-[0_0_12px_rgba(172,194,253,0.3)] dark:hover:bg-[#9ab5f6] dark:hover:shadow-[0_0_12px_rgba(95,119,184,0.35)] md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full"
                     >
                       <img
                         src={serviceIconSrc(itemId)}
@@ -151,8 +144,7 @@ export default function Services() {
                         {t(`sections.${section.id}.items.${itemId}`)}
                       </span>
                     </div>
-                  );
-                })}
+                ))}
               </div>
             </div>
           );
