@@ -8,10 +8,9 @@ import { useTranslations } from "next-intl";
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
 const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
-const HERO_VIDEO_DARK_FILE = "Анимация_персонажей_и_видео.mp4";
 
 const HERO_VIDEO_LIGHT_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
-const HERO_VIDEO_DARK_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_DARK_FILE)}`;
+const HERO_VIDEO_DARK_MP4 = "/video/Анимация_персонажей_и_видео.mp4";
 
 const HERO_MEDIA_OUTER =
   "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
@@ -45,6 +44,17 @@ export default function Hero() {
       /* ignore */
     });
   }, []);
+
+  const handleVideoClick = useCallback(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (needsSoundGesture) {
+      enableSound();
+      return;
+    }
+    v.muted = !v.muted;
+    setMuted(v.muted);
+  }, [needsSoundGesture, enableSound]);
 
   useEffect(() => {
     if (videoBroken) return;
@@ -98,23 +108,28 @@ export default function Hero() {
               ) : (
                 <div
                   className={`absolute inset-0 ${needsSoundGesture ? "cursor-pointer" : ""}`}
-                  onClick={() => {
-                    if (needsSoundGesture) enableSound();
-                  }}
+                  onClick={handleVideoClick}
                   onKeyDown={(e) => {
-                    if (needsSoundGesture && (e.key === "Enter" || e.key === " ")) {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
-                      enableSound();
+                      handleVideoClick();
                     }
                   }}
-                  role={needsSoundGesture ? "button" : undefined}
-                  tabIndex={needsSoundGesture ? 0 : undefined}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={
+                    needsSoundGesture
+                      ? t("enableSound")
+                      : muted
+                        ? t("videoUnmuteHint")
+                        : t("videoMuteHint")
+                  }
                 >
                   <video
                     key={heroVideoSrc}
                     ref={videoRef}
-                    className="h-full w-full object-contain"
-                    aria-label={t("videoAria")}
+                    className="pointer-events-none h-full w-full object-contain"
+                    aria-hidden
                     poster={posterSrc}
                     src={heroVideoSrc}
                     muted={muted}

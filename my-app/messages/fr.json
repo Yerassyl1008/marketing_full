@@ -8,6 +8,8 @@
   "hero": {
     "button": "Nous contacter",
     "enableSound": "Activer le son",
+    "videoMuteHint": "Couper le son de la vidéo",
+    "videoUnmuteHint": "Réactiver le son de la vidéo",
     "span": "299 €/mois",
     "text": "Nous prenons entièrement cette tâche en charge.",
     "title": "Promotion complète de votre entreprise à partir de",

@@ -8,6 +8,8 @@
   "hero": {
     "button": "Kontaktieren Sie uns",
     "enableSound": "Ton einschalten",
+    "videoMuteHint": "Videoton stumm schalten",
+    "videoUnmuteHint": "Videoton einschalten",
     "span": "299 €/Monat",
     "text": "Wir übernehmen diese Aufgabe vollständig.",
     "title": "Umfassende Förderung Ihres Unternehmens von",

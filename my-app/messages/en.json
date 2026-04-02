@@ -8,6 +8,8 @@
   "hero": {
     "button": "Contact us",
     "enableSound": "Enable sound",
+    "videoMuteHint": "Mute video sound",
+    "videoUnmuteHint": "Unmute video sound",
     "span": "299 €/month",
     "text": "We take this task completely upon ourselves",
     "title": "Comprehensive promotion of your business from",

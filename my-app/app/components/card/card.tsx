@@ -88,7 +88,7 @@ export default function Card({ embedded = false }: CardProps) {
       className={
         embedded
           ? "mt-4 w-full sm:mt-6"
-          : "mt-8 rounded-[28px] bg-[var(--team-surface)] p-3 shadow-sm sm:p-5 lg:p-8 lg:py-12"
+          : "mt-8 rounded-[28px] bg-[var(--card-bg)] p-3 shadow-sm sm:p-5 lg:p-8 lg:py-12"
       }
     >
       <div
@@ -112,13 +112,13 @@ export default function Card({ embedded = false }: CardProps) {
             </p>
 
             <div className="mt-8 rounded-2xl  p-4">
-              <div className="mb-4 grid h-[210px] place-items-center rounded-xl">
+              <div className="mb-4 grid h-[250px] place-items-center rounded-xl">
                 <Image
                   src={isDarkTheme ? CARD_ILLUSTRATION_DARK : CARD_ILLUSTRATION_LIGHT}
                   alt={t("left.illustrationAlt")}
-                  width={380}
+                  width={500}
                   height={380}
-                  className="mb-6 h-auto max-h-[330px] w-auto max-w-full object-contain"
+                  className="mb-6 h-auto max-h-[500px] w-auto max-w-[500px] object-contain"
                 />
               </div>
 
@@ -126,7 +126,7 @@ export default function Card({ embedded = false }: CardProps) {
                 {tagIds.map((tagId) => (
                   <span
                     key={tagId}
-                    className="rounded-full bg-white px-3 py-1 text-xs text-zinc-500"
+                    className="rounded-full bg-[var(--card-spawn-bg)] px-3 py-1 text-xs text-[var(--card-spawn-text)]"
                   >
                     {t(`left.tags.${tagId}`)}
                   </span>
