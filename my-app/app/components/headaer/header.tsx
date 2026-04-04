@@ -106,12 +106,14 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
     <>
       <header className="my-4 flex items-center justify-between rounded-full bg-[var(--header-bg)] px-3 py-2.5 sm:my-6 sm:px-4 sm:py-3 lg:px-6 lg:py-4">
           <Link href="/main-page">
-        <h1 className="text-xl leading-tight font-semibold sm:text-2xl lg:text-lg">MARKETING LOGO</h1>
+        <h1 className="text-xl leading-tight font-semibold text-[var(--foreground)] sm:text-2xl lg:text-lg">
+          MARKETING LOGO
+        </h1>
         </Link>
 
         <button
           type="button"
-          className="inline-flex text-2xl sm:text-3xl lg:hidden"
+          className="inline-flex text-2xl text-[var(--foreground)] sm:text-3xl lg:hidden"
           aria-label="Открыть меню"
           onClick={() => setIsMobileMenuOpen(true)}
         >
@@ -208,21 +210,25 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-50 bg-[#f4f4f4]/95 px-4 pb-6 pt-8 backdrop-blur-sm sm:px-6 lg:hidden">
+        <div className="fixed inset-0 z-50 bg-[color:var(--background)]/95 px-4 pb-6 pt-8 text-[var(--foreground)] shadow-[0_0_40px_rgba(0,0,0,0.12)] backdrop-blur-md dark:shadow-[0_0_48px_rgba(0,0,0,0.45)] sm:px-6 lg:hidden">
           <button
             type="button"
             aria-label="Закрыть меню"
-            className="absolute right-6 top-6 text-3xl"
+            className="absolute right-6 top-6 text-3xl text-[var(--foreground)] hover:opacity-80"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             ×
           </button>
 
           <nav>
-            <ul className="space-y-4 text-3xl text-zinc-800 dark:text-zinc-200">
+            <ul className="space-y-4 text-3xl font-semibold text-[var(--foreground)]">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link
+                    href={link.href}
+                    className="hover:opacity-80"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -232,16 +238,25 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
 
           <button
             type="button"
-            className="mt-16 inline-flex items-center gap-2 rounded-full bg-[#acc2fd] px-6 py-3 text-lg shadow"
+            className="mt-16 inline-flex items-center gap-2 rounded-full bg-[#acc2fd] px-6 py-3 text-lg font-semibold text-[var(--hero-button)] shadow-md dark:bg-[var(--design-btn)] dark:text-zinc-100"
           >
             → Связаться с нами
           </button>
 
-          <div className="mt-10 flex justify-center opacity-20">
-            <Image src="/img/Mask group.png" alt="decorative" width={220} height={220} />
+          <div className="mt-10 flex justify-center opacity-[0.18] dark:opacity-25">
+            <Image
+              src={
+                isDark
+                  ? `/img/${encodeURIComponent("Mask group (1).png")}`
+                  : `/img/${encodeURIComponent("Mask group.png")}`
+              }
+              alt=""
+              width={220}
+              height={220}
+            />
           </div>
 
-          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[var(--foreground)]">
             <button
               type="button"
               onClick={() => setIsDark((prev) => !prev)}
@@ -261,9 +276,19 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
               </span>
             </button>
 
-            <button type="button" className="flex items-center gap-2 text-2xl" onClick={switchToNextLocale}>
+            <button
+              type="button"
+              className="flex items-center gap-2 text-2xl hover:opacity-80"
+              onClick={switchToNextLocale}
+            >
               {localeShortLabel(localeBase)}
-              <Image src="/svg/chevron-right.svg" alt="arrow" width={12} height={12} />
+              <Image
+                src="/svg/chevron-right.svg"
+                alt=""
+                width={12}
+                height={12}
+                className="dark:invert"
+              />
             </button>
 
             <div className="flex items-center gap-2">
