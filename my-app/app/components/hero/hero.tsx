@@ -9,8 +9,10 @@ import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
 const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
 
-const HERO_VIDEO_LIGHT_MP4 = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
-const HERO_VIDEO_DARK_MP4 = "/video/Анимация_персонажей_и_видео.mp4";
+const HERO_VIDEO_LIGHT_SRC = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
+/** Тёмная тема: MP4/WebM — в <video>; GIF — только в <img>/<Image> (в <video> не воспроизводится). */
+const HERO_MEDIA_DARK_SRC = "/video/gif_not_lotte.gif";
+const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_MEDIA_DARK_SRC);
 
 const HERO_MEDIA_OUTER =
   "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
@@ -32,8 +34,9 @@ export default function Hero() {
     ? `/img/${encodeURIComponent("Mask group (1).png")}`
     : `/img/${encodeURIComponent("Mask group.png")}`;
 
-  const heroVideoSrc = isDarkTheme ? HERO_VIDEO_DARK_MP4 : HERO_VIDEO_LIGHT_MP4;
+  const heroVideoSrc = isDarkTheme ? HERO_MEDIA_DARK_SRC : HERO_VIDEO_LIGHT_SRC;
 
+  
   const enableSound = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -57,7 +60,7 @@ export default function Hero() {
   }, [needsSoundGesture, enableSound]);
 
   useEffect(() => {
-    if (videoBroken) return;
+    if (videoBroken || (isDarkTheme && HERO_DARK_IS_GIF)) return;
     const v = videoRef.current;
     if (!v) return;
     let cancelled = false;
@@ -104,6 +107,17 @@ export default function Hero() {
                   sizes={HERO_IMAGE_SIZES}
                   className="object-contain"
                   priority
+                />
+              ) : isDarkTheme && HERO_DARK_IS_GIF ? (
+                <Image
+                  src={HERO_MEDIA_DARK_SRC}
+                  alt={t("videoAria")}
+                  fill
+                  sizes={HERO_IMAGE_SIZES}
+                  className="object-contain"
+                  unoptimized
+                  priority
+                  onError={() => setVideoBroken(true)}
                 />
               ) : (
                 <div
