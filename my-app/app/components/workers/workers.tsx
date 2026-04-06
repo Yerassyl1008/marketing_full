@@ -94,15 +94,15 @@ function WorkerCard({
       <div
         className={
           compact
-            ? "flex min-h-0 flex-[1] flex-col justify-end bg-[var(--workers-bg)] px-1.5 pb-2 pt-1 min-[360px]:px-2 sm:px-2.5 sm:pb-2.5"
-            : "flex min-h-0 flex-[1] flex-col justify-end bg-[var(--workers-bg)] px-3 pb-3 pt-1 sm:px-3.5 sm:pb-3.5"
+            ? "flex min-h-0 flex-[1] flex-col justify-end bg-[var(--workers-bg)] px-1 pb-2 pt-1 min-[360px]:px-2 sm:px-2.5 sm:pb-2.5"
+            : "flex min-h-0 flex-[1] flex-col justify-end bg-[var(--workers-bg)] px-3 pb-3 sm:px-3.5 sm:pb-3.5"
         }
       >
         <div
           className={
             compact
               ? "flex min-h-[2.75rem] items-center justify-between gap-2 min-[360px]:min-h-12 sm:min-h-14"
-              : "flex min-h-[3.25rem] items-center justify-between gap-3 sm:min-h-16"
+              : "flex min-h-[3.5rem] items-center justify-between gap-2 sm:min-h-[4rem] sm:gap-3"
           }
         >
           <div className="min-w-0 flex-1">
@@ -129,12 +129,22 @@ function WorkerCard({
             type="button"
             className={
               compact
-                ? "grid h-6 w-6 shrink-0 place-items-center self-center rounded-full bg-[#acc2fd] text-xs text-zinc-800 transition-shadow hover:shadow-md min-[360px]:h-7 min-[360px]:w-7"
-                : "grid h-7 w-7 shrink-0 place-items-center self-center rounded-full bg-[#acc2fd] text-sm text-zinc-800 transition-shadow hover:shadow-md sm:h-8 sm:w-8 sm:text-base"
+                ? "flex h-5 w-5 shrink-0 items-center justify-center self-center rounded-full bg-[#acc2fd] shadow-sm transition-shadow hover:shadow-md min-[360px]:h-6 min-[360px]:w-6 min-[420px]:h-7 min-[420px]:w-7 sm:h-8 sm:w-8"
+                : "flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full bg-[#acc2fd] shadow-sm transition-shadow hover:shadow-md sm:h-10 sm:w-10"
             }
             aria-label={t("openProfile")}
           >
-            ↗
+            <Image
+              src="/svg/arrow-up-right.svg"
+              alt=""
+              width={20}
+              height={20}
+              className={
+                compact
+                  ? "block h-2.5 w-2.5 shrink-0 object-contain min-[360px]:h-3 min-[360px]:w-3 min-[420px]:h-3.5 min-[420px]:w-3.5 sm:h-4 sm:w-4"
+                  : "block h-4 w-4 shrink-0 object-contain sm:h-[1.125rem] sm:w-[1.125rem]"
+              }
+            />
           </button>
         </div>
       </div>

@@ -1,9 +1,143 @@
 "use client";
 
 import Image from "next/image";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 const CARD_COUNT = 4;
+
+function countFullCards(rowWidthPx: number, cardW: number, gap: number): number {
+  if (rowWidthPx <= 0 || cardW <= 0) return 1;
+  const row = (n: number) => (n > 0 ? n * cardW + (n - 1) * gap : 0);
+  let n = Math.max(1, Math.floor((rowWidthPx + gap) / (cardW + gap)));
+  while (n > 1 && row(n) > rowWidthPx + 0.5) {
+    n -= 1;
+  }
+  return Math.max(1, n);
+}
+
+function ProjectCard({
+  size,
+  project,
+  t,
+}: {
+  size: "grid" | "carousel";
+  project: { title: string; category: string; description: string; price: string };
+  t: ReturnType<typeof useTranslations<"portfolio">>;
+}) {
+  const isGrid = size === "grid";
+
+  return (
+    <article
+      className={
+        isGrid
+          ? "min-w-0 rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+          : "w-[clamp(220px,min(22vw,280px),280px)] shrink-0 rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+      }
+    >
+      <div
+        className={
+          isGrid
+            ? "relative h-36 w-full rounded-b-3xl rounded-t-3xl sm:h-40 lg:h-44"
+            : "relative h-44 w-full rounded-b-3xl rounded-t-3xl"
+        }
+      >
+        <Image
+          src="/img/beautifull-caucasian-woman-with-curly-hair-smiles-isolated 1.png"
+          alt={project.title}
+          fill
+          className="object-cover rounded-t-3xl"
+        />
+        <span
+          className={
+            isGrid
+              ? "absolute right-1 top-0 max-w-[calc(100%-0.5rem)] -translate-y-1/2 truncate rounded-full bg-[#1e1e1e] px-1.5 py-0.5 text-[9px] font-semibold text-[#FDE3AC] sm:right-2 sm:px-3 sm:py-1 sm:text-xs lg:right-3 lg:px-4 lg:py-2 lg:text-sm"
+              : "absolute right-2 top-0 max-w-[calc(100%-0.5rem)] -translate-y-1/2 truncate rounded-full bg-[#1e1e1e] px-3 py-1.5 text-xs font-semibold text-[#FDE3AC] lg:right-3 lg:px-4 lg:py-2 lg:text-sm"
+          }
+        >
+          {project.category}
+        </span>
+      </div>
+
+      <div className={isGrid ? "p-2.5 sm:p-4 lg:p-5" : "p-4 lg:p-5"}>
+        <h3
+          className={
+            isGrid
+              ? "mb-1 text-sm font-bold text-[var(--foreground)] sm:mb-2 sm:text-base lg:text-2xl"
+              : "mb-2 text-base font-bold text-[var(--foreground)] lg:text-2xl"
+          }
+        >
+          {project.title}
+        </h3>
+        <p
+          className={
+            isGrid
+              ? "mb-3 line-clamp-3 text-xs font-medium leading-snug text-zinc-500 sm:mb-4 sm:line-clamp-none sm:text-sm sm:leading-relaxed lg:mb-5 lg:text-lg lg:leading-9"
+              : "mb-4 text-sm leading-relaxed text-zinc-500 lg:mb-5 lg:text-lg lg:leading-9"
+          }
+        >
+          {project.description}
+        </p>
+
+        <div
+          className={
+            isGrid
+              ? "flex items-end justify-between gap-1.5 sm:gap-2"
+              : "flex items-end justify-between gap-2"
+          }
+        >
+          <div
+            className={
+              isGrid
+                ? "flex min-w-0 max-w-[calc(100%-2.75rem)] flex-col gap-0 rounded-xl bg-[var(--projects-span-bg)] px-1.5 py-1 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 sm:rounded-2xl sm:px-4 sm:py-2"
+                : "flex min-w-0 flex-1 flex-wrap items-center gap-2 rounded-2xl bg-[var(--projects-span-bg)] px-4 py-2"
+            }
+          >
+            <p
+              className={
+                isGrid
+                  ? "text-[8px] leading-tight text-zinc-400 sm:text-sm"
+                  : "text-sm text-zinc-400"
+              }
+            >
+              {t("priceLabel")}
+            </p>
+            <p
+              className={
+                isGrid
+                  ? "text-[11px] font-medium leading-tight text-[var(--foreground)] sm:text-xl lg:text-2xl"
+                  : "text-xl font-medium text-[var(--foreground)] lg:text-2xl"
+              }
+            >
+              {project.price}
+            </p>
+          </div>
+          <button
+            type="button"
+            className={
+              isGrid
+                ? "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#acc2fd] shadow-sm transition-shadow hover:shadow-md min-[360px]:h-8 min-[360px]:w-8 sm:h-10 sm:w-10"
+                : "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#acc2fd] shadow-sm transition-shadow hover:shadow-md"
+            }
+            aria-label={t("openProject")}
+          >
+            <Image
+              src="/svg/arrow-up-right.svg"
+              alt=""
+              width={20}
+              height={20}
+              className={
+                isGrid
+                  ? "block h-2.5 w-2.5 shrink-0 object-contain min-[360px]:h-3 min-[360px]:w-3 sm:h-4 sm:w-4"
+                  : "block h-4 w-4 shrink-0 object-contain"
+              }
+            />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
 
 export default function Projects() {
   const t = useTranslations("portfolio");
@@ -13,6 +147,55 @@ export default function Projects() {
     description: t("items.silpo.description"),
     price: t("items.silpo.price"),
   };
+
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [index, setIndex] = useState(0);
+  const [step, setStep] = useState(300);
+  const [maxIndex, setMaxIndex] = useState(0);
+
+  const updateLayout = useCallback(() => {
+    const viewport = viewportRef.current;
+    const track = trackRef.current;
+    if (!viewport || !track) return;
+    const vw = viewport.getBoundingClientRect().width;
+    if (vw < 1) return;
+    const first = track.firstElementChild as HTMLElement | null;
+    if (!first) return;
+
+    const cardW = first.getBoundingClientRect().width;
+    const styles = window.getComputedStyle(track);
+    const gap = parseFloat(styles.columnGap || styles.gap || "16") || 16;
+    const s = cardW + gap;
+    const visible = countFullCards(vw, cardW, gap);
+    const max = Math.max(0, CARD_COUNT - visible);
+
+    setStep(s);
+    setMaxIndex(max);
+    setIndex((i) => Math.min(i, max));
+  }, []);
+
+  useLayoutEffect(() => {
+    updateLayout();
+    const ro = new ResizeObserver(() => updateLayout());
+    const el = viewportRef.current;
+    if (el) ro.observe(el);
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onMq = () => updateLayout();
+    mq.addEventListener("change", onMq);
+    window.addEventListener("orientationchange", updateLayout);
+    return () => {
+      ro.disconnect();
+      mq.removeEventListener("change", onMq);
+      window.removeEventListener("orientationchange", updateLayout);
+    };
+  }, [updateLayout]);
+
+  const goPrev = () => setIndex((i) => Math.max(0, i - 1));
+  const goNext = () => setIndex((i) => Math.min(maxIndex, i + 1));
+
+  const canPrev = index > 0;
+  const canNext = index < maxIndex;
 
   return (
     <section className="mt-8 min-w-0 px-4 py-6 lg:px-8 lg:py-8">
@@ -28,74 +211,52 @@ export default function Projects() {
       </div>
 
       <div className="relative w-full min-w-0">
-        <div className="overflow-x-auto overflow-y-visible overscroll-x-contain lg:overflow-visible">
-          <div className="flex w-max snap-x snap-mandatory gap-4 pb-2 lg:grid lg:w-full lg:grid-cols-4 lg:overflow-visible lg:pb-0">
-          {Array.from({ length: CARD_COUNT }, (_, index) => (
-            <article
-              key={index}
-              className="min-w-[260px] snap-start rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] lg:min-w-0"
-            >
-              <div className="relative h-44 w-full  rounded-b-3xl rounded-t-3xl">
-                <Image
-                  src="/img/beautifull-caucasian-woman-with-curly-hair-smiles-isolated 1.png"
-                  alt={project.title}
-                  fill
-                  className="object-cover rounded-t-3xl"
-                />
-                <span className="absolute right-2 top-0 -translate-y-1/2 whitespace-nowrap rounded-full bg-[#1e1e1e] px-3 py-1.5 text-xs font-semibold text-[#FDE3AC] lg:right-3 lg:px-4 lg:py-2 lg:text-sm">
-                  {project.category}    
-                </span>
-              </div>
-
-              <div className="p-4 lg:p-5">
-                <h3 className="mb-2 text-xl font-bold text-[var(--foreground)] lg:text-2xl">
-                  {project.title}
-                </h3>
-                <p className="mb-4 text-lg text-zinc-500 lg:mb-5 font-medium leading-9 ">
-                  {project.description}
-                </p>
-
-                <div className="flex items-end justify-between gap-2">
-                  <div className="flex items-center gap-2 rounded-2xl px-4 py-2 bg-[var(--projects-span-bg)]">
-                    <p className="text-sm text-zinc-400 lg:text-sm">{t("priceLabel")}</p>
-                    <p className="text-xl font-medium text-[var(--foreground)] lg:text-2xl">
-                      {project.price}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="grid h-12 w-12 place-items-center rounded-full bg-[#9ab5f6] text-4xl text-zinc-800 lg:h-10 lg:w-10 lg:text-2xl"
-                    aria-label={t("openProject")}
-                  >
-                    <span aria-hidden>↗</span>
-                  </button>
-                </div>
-              </div>
-            </article>
+        {/* Мобилка / планшет: сетка 1 колонка → от ~480px 2 колонки */}
+        <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 lg:hidden">
+          {Array.from({ length: CARD_COUNT }, (_, i) => (
+            <ProjectCard key={`grid-${i}`} size="grid" project={project} t={t} />
           ))}
-          </div>
         </div>
 
-        <button
-          type="button"
-          aria-label={t("prevSlide")}
-          className="absolute -left-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow lg:grid"
-        >
-          <span aria-hidden>←</span>
-        </button>
-        <button
-          type="button"
-          aria-label={t("nextSlide")}
-          className="absolute -right-2 top-1/2 hidden h-9 w-9 -translate-y-1/2 place-items-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow lg:grid"
-        >
-          <span aria-hidden>→</span>
-        </button>
-      </div>
+        {/* Десктоп (lg+): карусель с кнопками, как workers */}
+        <div className="hidden min-w-0 items-center gap-2 px-0 md:gap-3 lg:flex lg:px-0">
+          <button
+            type="button"
+            aria-label={t("prevSlide")}
+            disabled={!canPrev}
+            onClick={goPrev}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-zinc-200 bg-white text-lg text-zinc-800 shadow-md transition-all hover:shadow-lg disabled:pointer-events-none disabled:opacity-30 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+          >
+            <span aria-hidden>←</span>
+          </button>
 
-      <div className="mt-6 flex items-center justify-center gap-2">
-        <span className="h-3 w-8 rounded-full bg-zinc-900" />
-        <span className="h-3 w-3 rounded-full border-2 border-zinc-900" />
-        <span className="h-3 w-3 rounded-full border-2 border-zinc-900" />
+          <div
+            ref={viewportRef}
+            className="min-w-0 flex-1 overflow-hidden pb-2 pt-1"
+            role="region"
+            aria-label={t("title")}
+          >
+            <div
+              ref={trackRef}
+              className="flex gap-4 transition-[transform] duration-300 ease-out will-change-transform"
+              style={{ transform: `translate3d(-${index * step}px, 0, 0)` }}
+            >
+              {Array.from({ length: CARD_COUNT }, (_, i) => (
+                <ProjectCard key={`car-${i}`} size="carousel" project={project} t={t} />
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            aria-label={t("nextSlide")}
+            disabled={!canNext}
+            onClick={goNext}
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-zinc-200 bg-white text-lg text-zinc-800 shadow-md transition-all hover:shadow-lg disabled:pointer-events-none disabled:opacity-30 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+          >
+            <span aria-hidden>→</span>
+          </button>
+        </div>
       </div>
     </section>
   );

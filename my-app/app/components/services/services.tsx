@@ -114,7 +114,7 @@ export default function Services() {
                 className="flex w-full items-center justify-between rounded-xl px-2 py-1 text-left md:pointer-events-none md:justify-center"
                 aria-expanded={isOpenMobile}
               >
-                <span className="text-1xl font-semibold text-[var(--services-title)] md:text-2xl mb-2">
+                <span className="mb-2 text-xl font-semibold text-[var(--services-title)] md:text-2xl">
                   {t(`sections.${section.id}.title`)}
                 </span>
                 <span className="text-xl text-zinc-500 md:hidden">
@@ -130,7 +130,7 @@ export default function Services() {
                 {section.itemIds.map((itemId) => (
                     <div
                       key={`${section.id}-${itemId}`}
-                      className="flex min-h-[112px] min-w-0 flex-col items-start gap-3 rounded-2xl bg-[var(--services-text-bg)] px-6 py-4 text-[var(--services-title)] shadow-none transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:bg-[#9ab5f6] hover:shadow-[0_0_12px_rgba(172,194,253,0.3)] dark:hover:bg-[#9ab5f6] dark:hover:shadow-[0_0_12px_rgba(95,119,184,0.35)] md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full"
+                      className="flex min-h-0 min-w-0 flex-col items-start gap-2 rounded-2xl bg-[var(--services-text-bg)] px-3 py-2.5 text-[var(--services-title)] shadow-none transition-all duration-300 ease-out will-change-transform hover:scale-[1.03] hover:bg-[#9ab5f6] hover:shadow-[0_0_12px_rgba(172,194,253,0.3)] dark:hover:bg-[#9ab5f6] dark:hover:shadow-[0_0_12px_rgba(95,119,184,0.35)] md:min-h-16 md:flex-row md:items-center md:gap-3 md:rounded-full md:px-6 md:py-4"
                     >
                       <img
                         src={serviceIconSrc(itemId)}
@@ -140,7 +140,7 @@ export default function Services() {
                         className="h-4 w-4 flex-shrink-0 object-contain md:h-5 md:w-5"
                         aria-hidden
                       />
-                      <span className="min-w-0 w-full text-xs leading-5 md:text-sm">
+                      <span className="min-w-0 w-full text-xs leading-snug md:text-sm md:leading-5">
                         {t(`sections.${section.id}.items.${itemId}`)}
                       </span>
                     </div>

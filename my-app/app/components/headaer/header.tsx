@@ -56,14 +56,8 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
   function handleLocaleChange(nextLocale: (typeof languages)[number]) {
     router.replace(pathname, { locale: nextLocale });
     setIsLanguageOpen(false);
+    setIsMobileMenuOpen(false);
   }
-
-  function switchToNextLocale() {
-    const currentIndex = languages.indexOf(localeBase as (typeof languages)[number]);
-    const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % languages.length;
-    handleLocaleChange(languages[nextIndex]);
-  }
-
 
   useEffect(() => {
     function handleOutsideClick(event: MouseEvent) {
@@ -243,6 +237,35 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
             → Связаться с нами
           </button>
 
+          <div
+            className="mt-8"
+            role="group"
+            aria-label="Язык интерфейса"
+          >
+            <ul className="flex flex-wrap gap-2">
+              {languages.map((lang) => {
+                const active = lang === localeBase;
+                return (
+                  <li key={lang}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!active) handleLocaleChange(lang);
+                      }}
+                      className={
+                        active
+                          ? "min-h-11 min-w-[3.25rem] rounded-full border border-[var(--foreground)] px-4 py-2 text-base font-semibold text-[var(--foreground)]"
+                          : "min-h-11 min-w-[3.25rem] rounded-full border border-[color:var(--foreground)]/20 px-4 py-2 text-base font-medium text-[var(--design-muted)] transition-colors active:bg-[var(--foreground)]/5 hover:border-[var(--design-btn)] hover:text-[var(--foreground)]"
+                      }
+                    >
+                      {localeShortLabel(lang)}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
           <div className="mt-10 flex justify-center opacity-[0.18] dark:opacity-25">
             <Image
               src={
@@ -256,11 +279,11 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
             />
           </div>
 
-          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-[var(--foreground)]">
+          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between gap-4 text-[var(--foreground)]">
             <button
               type="button"
               onClick={() => setIsDark((prev) => !prev)}
-              className={`relative flex h-10 w-20 items-center rounded-full p-1 transition-colors ${
+              className={`relative flex h-10 w-20 shrink-0 items-center rounded-full p-1 transition-colors ${
                 isDark ? "bg-indigo-300" : "bg-amber-200"
               }`}
               aria-label="Переключить тему"
@@ -276,22 +299,7 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
               </span>
             </button>
 
-            <button
-              type="button"
-              className="flex items-center gap-2 text-2xl hover:opacity-80"
-              onClick={switchToNextLocale}
-            >
-              {localeShortLabel(localeBase)}
-              <Image
-                src="/svg/chevron-right.svg"
-                alt=""
-                width={12}
-                height={12}
-                className="dark:invert"
-              />
-            </button>
-
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-2">
               <Image
                 src={socialIconSrc(isDark, "instagram")}
                 alt="Instagram"

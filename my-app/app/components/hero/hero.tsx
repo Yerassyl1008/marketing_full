@@ -11,13 +11,14 @@ const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
 
 const HERO_VIDEO_LIGHT_SRC = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
 /** Тёмная тема: MP4/WebM — в <video>; GIF — только в <img>/<Image> (в <video> не воспроизводится). */
-const HERO_MEDIA_DARK_SRC = "/video/gif_not_lotte.gif";
+const HERO_MEDIA_DARK_SRC = "/video/217.webm";
 const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_MEDIA_DARK_SRC);
 
 const HERO_MEDIA_OUTER =
   "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
+/** На мобилке не квадрат — ниже блок, меньше «пустоты» вокруг object-contain; с sm — как раньше. */
 const HERO_MEDIA_FRAME =
-  "relative aspect-square w-full max-h-[min(70vh,600px)] overflow-hidden rounded-2xl bg-[var(--team-surface)]";
+  "relative w-full overflow-hidden rounded-2xl bg-[var(--team-surface)] aspect-[4/3] max-h-[min(42vh,260px)] sm:aspect-square sm:max-h-[min(70vh,600px)]";
 const HERO_IMAGE_SIZES = "(max-width: 700px) 90vw, 600px";
 
 export default function Hero() {
@@ -92,8 +93,8 @@ export default function Hero() {
   }, [isDarkTheme]);
 
   return (
-    <section className="relative min-w-0 max-w-full pb-8 sm:pb-12 sm:pt-6 lg:pb-14">
-      <div className="mx-auto flex min-w-0 max-w-full flex-col-reverse gap-4 sm:gap-6 lg:flex-row lg:items-center">
+    <section className="relative min-w-0 max-w-full sm:pt-6 lg:pb-14">
+      <div className="mx-auto flex min-w-0 max-w-full flex-col-reverse gap-2 sm:gap-6 lg:flex-row lg:items-center lg:gap-8">
         <div
           className="flex w-full justify-center lg:w-1/2 lg:flex-shrink-0"
         >
@@ -121,7 +122,9 @@ export default function Hero() {
                 />
               ) : (
                 <div
-                  className={`absolute inset-0 ${needsSoundGesture ? "cursor-pointer" : ""}`}
+                  className={`absolute inset-0 ${needsSoundGesture ? "cursor-pointer" : ""} ${
+                    isDarkTheme ? "flex items-center justify-center" : ""
+                  }`}
                   onClick={handleVideoClick}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -142,7 +145,11 @@ export default function Hero() {
                   <video
                     key={heroVideoSrc}
                     ref={videoRef}
-                    className="pointer-events-none h-full w-full object-contain"
+                    className={
+                      isDarkTheme
+                        ? "pointer-events-none max-h-[72%] max-w-[72%] object-contain sm:max-h-[67%] sm:max-w-[67%] lg:max-h-[67%] lg:max-w-[67%]"
+                        : "pointer-events-none h-full w-full object-contain"
+                    }
                     aria-hidden
                     poster={posterSrc}
                     src={heroVideoSrc}
@@ -180,20 +187,21 @@ export default function Hero() {
               {t("span")}
             </span>
           </h2>
-          <p className="mb-3 text-sm leading-snug text-[var(--design-text)] sm:mb-4 sm:text-base">{t("text")}</p>
-          <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#acc2fd] px-4 py-2.5 text-base text-[var(--hero-button)] hover:bg-[#9fb8fc] sm:w-auto sm:px-5 sm:py-3 sm:text-lg lg:px-4 lg:text-base">
+          <p className="mb-2 text-sm leading-snug text-[var(--design-text)] sm:mb-4 sm:text-base">{t("text")}</p>
+          <button className="flex items-center justify-center gap-1 rounded-full bg-[#acc2fd] px-2 py-1.5 text-xs text-[var(--hero-button)] hover:bg-[#9fb8fc] sm:w-auto sm:gap-2 sm:px-5 sm:py-3 sm:text-lg lg:px-4 lg:text-base">
             <Image
               src="/svg/solar_calculator-broken.svg"
               alt="calculator"
               width={20}
               height={20}
+              className="h-2.5 w-2.5 shrink-0 sm:h-5 sm:w-5"
             />
             {t("button")}
           </button>
         </div>
       </div>
 
-      <div className="mt-4 flex justify-center sm:justify-end lg:absolute lg:bottom-4 lg:right-8 lg:mt-0">
+      <div className="mt-2 flex justify-center sm:mt-4 sm:justify-end lg:absolute lg:bottom-4 lg:right-8 lg:mt-0">
         <div className="flex items-center gap-2">
           <Link
             href="#"

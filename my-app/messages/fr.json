@@ -146,13 +146,15 @@
     "errors": {
       "requiredFields": "Remplissez le nom, l'e-mail et le contact.",
       "submitFailed": "Impossible d'envoyer la demande.",
-      "unknown": "Erreur d'envoi du formulaire."
+      "unknown": "Erreur d'envoi du formulaire.",
+      "submitTimeout": "Le serveur met trop de temps à répondre. Votre demande a peut‑être déjà été enregistrée — évitez de renvoyer le formulaire sans raison ; contactez‑nous directement en cas de doute."
     },
     "success": {
       "submitted": "Demande envoyée."
     }
   },
   "commentSection": {
+    "reviewsRegion": "Avis clients",
     "prevReview": "Avis précédent",
     "nextReview": "Avis suivant",
     "items": {

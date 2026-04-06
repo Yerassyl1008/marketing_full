@@ -146,13 +146,15 @@
     "errors": {
       "requiredFields": "Fill in name, email, and contact method.",
       "submitFailed": "Failed to send request.",
-      "unknown": "Form submission error."
+      "unknown": "Form submission error.",
+      "submitTimeout": "The server took too long to respond. Your request may already be saved—please don’t submit again unless you’re sure it failed; contact us directly if unsure."
     },
     "success": {
       "submitted": "Request sent."
     }
   },
   "commentSection": {
+    "reviewsRegion": "Customer reviews",
     "prevReview": "Previous review",
     "nextReview": "Next review",
     "items": {

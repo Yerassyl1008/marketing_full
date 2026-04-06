@@ -153,6 +153,7 @@
     }
   },
   "commentSection": {
+    "reviewsRegion": "Kundenbewertungen",
     "prevReview": "Vorherige Bewertung",
     "nextReview": "Nächste Bewertung",
     "items": {

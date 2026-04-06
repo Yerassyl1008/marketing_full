@@ -8,6 +8,9 @@ import { useTranslations } from "next-intl";
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
+/** Дольше — «вечная» отправка при обрыве ответа (Vercel Hobby ~10s, холодный Render, медленный Google). */
+const LEAD_SUBMIT_TIMEOUT_MS = 25_000;
+
 const CARD_ILLUSTRATION_LIGHT = "/img/Frame189(1)1.png";
 const CARD_ILLUSTRATION_DARK = `/img/${encodeURIComponent("Frame 189 (1) 1 (1).png")}`;
 
@@ -60,6 +63,7 @@ export default function Card({ embedded = false }: CardProps) {
           contact_type: contactType,
           contact: contact.trim(),
         }),
+        signal: AbortSignal.timeout(LEAD_SUBMIT_TIMEOUT_MS),
       });
 
       if (!response.ok) {
@@ -77,7 +81,13 @@ export default function Card({ embedded = false }: CardProps) {
       setContact("");
       setContactType("telegram");
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : t("errors.unknown"));
+      if (error instanceof Error && error.name === "TimeoutError") {
+        setSubmitError(t("errors.submitTimeout"));
+      } else if (error instanceof Error && error.name === "AbortError") {
+        setSubmitError(t("errors.submitTimeout"));
+      } else {
+        setSubmitError(error instanceof Error ? error.message : t("errors.unknown"));
+      }
     } finally {
       setIsSubmitting(false);
     }
