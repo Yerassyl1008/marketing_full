@@ -287,9 +287,9 @@ export default function Card({ embedded = false }: CardProps) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex w-full max-w-md items-center justify-center gap-3 rounded-full border-b-8 border-zinc-900 bg-[#a9bffd] px-4 py-3 text-xl font-medium text-zinc-900 transition-colors hover:bg-[#98b1fb] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:max-w-none sm:px-6 sm:text-2xl"
+                className="inline-flex w-full max-w-md items-center justify-center gap-2 rounded-full border-b-4 border-zinc-900 bg-[#a9bffd] px-3 py-2 text-base font-medium text-zinc-900 transition-colors hover:bg-[#98b1fb] disabled:cursor-not-allowed disabled:opacity-60 sm:gap-3 sm:border-b-8 sm:px-6 sm:py-3 sm:text-2xl sm:w-auto sm:max-w-none"
               >
-                <span className="text-xl sm:text-2xl">→</span>
+                <span className="text-base sm:text-2xl">→</span>
                 {isSubmitting ? t("form.submitting") : t("form.submit")}
               </button>
 

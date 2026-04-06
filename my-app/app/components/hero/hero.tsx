@@ -7,12 +7,9 @@ import { useTranslations } from "next-intl";
 
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
-const HERO_VIDEO_LIGHT_FILE = "Untitled design (2).mp4";
-
-const HERO_VIDEO_LIGHT_SRC = `/video/${encodeURIComponent(HERO_VIDEO_LIGHT_FILE)}`;
-/** Тёмная тема: MP4/WebM — в <video>; GIF — только в <img>/<Image> (в <video> не воспроизводится). */
-const HERO_MEDIA_DARK_SRC = "/video/217.webm";
-const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_MEDIA_DARK_SRC);
+/** Фон героя: WebM из `public/video/217.webm`. GIF — только через <Image>, не в <video>. */
+const HERO_VIDEO_SRC = "/video/217.webm";
+const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_VIDEO_SRC);
 
 const HERO_MEDIA_OUTER =
   "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
@@ -35,9 +32,8 @@ export default function Hero() {
     ? `/img/${encodeURIComponent("Mask group (1).png")}`
     : `/img/${encodeURIComponent("Mask group.png")}`;
 
-  const heroVideoSrc = isDarkTheme ? HERO_MEDIA_DARK_SRC : HERO_VIDEO_LIGHT_SRC;
+  const heroVideoSrc = HERO_VIDEO_SRC;
 
-  
   const enableSound = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -111,7 +107,7 @@ export default function Hero() {
                 />
               ) : isDarkTheme && HERO_DARK_IS_GIF ? (
                 <Image
-                  src={HERO_MEDIA_DARK_SRC}
+                  src={HERO_VIDEO_SRC}
                   alt={t("videoAria")}
                   fill
                   sizes={HERO_IMAGE_SIZES}
@@ -122,9 +118,7 @@ export default function Hero() {
                 />
               ) : (
                 <div
-                  className={`absolute inset-0 ${needsSoundGesture ? "cursor-pointer" : ""} ${
-                    isDarkTheme ? "flex items-center justify-center" : ""
-                  }`}
+                  className={`absolute inset-0 flex items-center justify-center ${needsSoundGesture ? "cursor-pointer" : ""}`}
                   onClick={handleVideoClick}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -145,11 +139,7 @@ export default function Hero() {
                   <video
                     key={heroVideoSrc}
                     ref={videoRef}
-                    className={
-                      isDarkTheme
-                        ? "pointer-events-none max-h-[72%] max-w-[72%] object-contain sm:max-h-[67%] sm:max-w-[67%] lg:max-h-[67%] lg:max-w-[67%]"
-                        : "pointer-events-none h-full w-full object-contain"
-                    }
+                    className="pointer-events-none max-h-[72%] max-w-[72%] object-contain sm:max-h-[67%] sm:max-w-[67%] lg:max-h-[67%] lg:max-w-[67%]"
                     aria-hidden
                     poster={posterSrc}
                     src={heroVideoSrc}
