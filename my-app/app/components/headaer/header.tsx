@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
+import { SITE_THEME_STORAGE_KEY } from "@/lib/site-theme";
 import { socialIconSrc } from "@/lib/social-icons";
 
 const languages = ["ru", "en", "fr", "ar", "de"] as const;
@@ -13,8 +14,6 @@ const languages = ["ru", "en", "fr", "ar", "de"] as const;
 //   { label: "Проекты", href: "/projects" },
 //   { label: "Связаться", href: "/connect" },
 // ];
-const THEME_STORAGE_KEY = "site-theme";
-
 /** Короткие подписи языков (как в макете: RU, ENG, …) */
 function localeShortLabel(code: string) {
   const map: Record<string, string> = {
@@ -83,7 +82,7 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    const savedTheme = localStorage.getItem(SITE_THEME_STORAGE_KEY);
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const shouldUseDark = savedTheme ? savedTheme === "dark" : prefersDark;
     setIsDark(shouldUseDark);
@@ -93,7 +92,7 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
   useEffect(() => {
     if (!isThemeReady) return;
     document.documentElement.classList.toggle("dark", isDark);
-    localStorage.setItem(THEME_STORAGE_KEY, isDark ? "dark" : "light");
+    localStorage.setItem(SITE_THEME_STORAGE_KEY, isDark ? "dark" : "light");
   }, [isDark, isThemeReady]);
 
   return (

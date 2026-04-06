@@ -11,8 +11,9 @@ import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 const HERO_VIDEO_SRC = "/video/217.webm";
 const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_VIDEO_SRC);
 
+/** На телефоне — на всю ширину колонки (как текст), без узкого «острова» 380px. */
 const HERO_MEDIA_OUTER =
-  "mx-auto w-full max-w-[380px] sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
+  "mx-auto w-full max-w-full sm:max-w-[520px] lg:max-w-[min(100%,700px)]";
 /** На мобилке не квадрат — ниже блок, меньше «пустоты» вокруг object-contain; с sm — как раньше. */
 const HERO_MEDIA_FRAME =
   "relative w-full overflow-hidden rounded-2xl bg-[var(--team-surface)] aspect-[4/3] max-h-[min(42vh,260px)] sm:aspect-square sm:max-h-[min(70vh,600px)]";
@@ -118,7 +119,7 @@ export default function Hero() {
                 />
               ) : (
                 <div
-                  className={`absolute inset-0 flex items-center justify-center ${needsSoundGesture ? "cursor-pointer" : ""}`}
+                  className={`hero-video-host absolute inset-0 flex items-center justify-center ${needsSoundGesture ? "cursor-pointer" : ""}`}
                   onClick={handleVideoClick}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" || e.key === " ") {
@@ -139,9 +140,10 @@ export default function Hero() {
                   <video
                     key={heroVideoSrc}
                     ref={videoRef}
-                    className="pointer-events-none max-h-[72%] max-w-[72%] object-contain sm:max-h-[67%] sm:max-w-[67%] lg:max-h-[67%] lg:max-w-[67%]"
+                    className="hero-video pointer-events-none h-full w-full max-h-full max-w-full object-contain sm:h-auto sm:w-auto sm:max-h-[67%] sm:max-w-[67%] lg:max-h-[67%] lg:max-w-[67%]"
                     aria-hidden
                     poster={posterSrc}
+                    suppressHydrationWarning
                     src={heroVideoSrc}
                     muted={muted}
                     playsInline

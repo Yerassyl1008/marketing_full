@@ -2,9 +2,11 @@
 
 import { useEffect, useLayoutEffect, useState } from "react";
 
-/** Синхронизация с `class="dark"` на `<html>` (как в hero). */
+/** Синхронизация с `class="dark"` на `<html>` (как в hero). На клиенте сразу читаем класс после bootstrap-скрипта. */
 export function useIsDarkTheme(): boolean {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() =>
+    typeof document !== "undefined" ? document.documentElement.classList.contains("dark") : false,
+  );
   useLayoutEffect(() => {
     const root = document.documentElement;
     const sync = () => setIsDark(root.classList.contains("dark"));

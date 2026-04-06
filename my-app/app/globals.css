@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #ffffff;
   --foreground: #171717;
   --design-title: #18181b;
@@ -94,6 +95,18 @@ html.dark {
 
 html {
   overflow-x: hidden;
+}
+
+/**
+ * iOS/WebKit: у <video> полосы object-contain часто рисуются чёрным, не цветом карточки.
+ * Явный фон совпадает с --team-surface (светлая/тёмная тема задаётся на html).
+ */
+.hero-video-host {
+  background-color: var(--team-surface);
+}
+
+video.hero-video {
+  background-color: var(--team-surface);
 }
 
 body {
