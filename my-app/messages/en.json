@@ -1,9 +1,17 @@
 {
   "header": {
+    "blog": "Blog",
     "connect": "Contact",
     "projects": "Projects",
     "services": "Services",
     "team": "Team"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Articles and insights",
+    "empty": "No published articles yet.",
+    "readMore": "Read",
+    "back": "All articles"
   },
   "hero": {
     "button": "Contact us",

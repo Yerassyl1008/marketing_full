@@ -49,6 +49,7 @@ export default function Header({ matchTeamSurface = false }: HeaderProps) {
     { label: t('team'), href: "/team" },
     { label: t('services'), href: "/services" },
     { label: t('projects'), href: "/projects" },
+    { label: t('blog'), href: "/blog" },
     { label: t('connect'), href: "/connect" },
   ];
 

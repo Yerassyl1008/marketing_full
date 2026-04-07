@@ -1,9 +1,17 @@
 {
   "header": {
+    "blog": "Blog",
     "connect": "Kontaktieren",
     "projects": "Projekte",
     "services": "Dienstleistungen",
     "team": "Team"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Artikel und Inhalte",
+    "empty": "Noch keine veröffentlichten Artikel.",
+    "readMore": "Weiterlesen",
+    "back": "Alle Artikel"
   },
   "hero": {
     "button": "Kontaktieren Sie uns",

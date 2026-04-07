@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, BookOpen, Trophy, GraduationCap, LogOut, Code2 } from 'lucide-react';
+import { LayoutDashboard, FileText, LogOut, Code2 } from 'lucide-react';
 // import { View } from '../types';
 import { twMerge } from 'tailwind-merge';
 
@@ -16,8 +16,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, closeMobile, onL
 
   const menuItems = [
     { href: '/admin', label: 'Главная', icon: LayoutDashboard },
-    { href: '#', label: 'Practice', icon: BookOpen },
-   
+    { href: '/admin/articles', label: 'Статьи', icon: FileText },
   ];
 
   return (
@@ -48,7 +47,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isMobileOpen, closeMobile, onL
 
           <nav className="flex-1 space-y-1.5">
             {menuItems.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive =
+                item.href === '/admin'
+                  ? pathname === '/admin'
+                  : pathname === item.href || pathname.startsWith(`${item.href}/`);
               const Icon = item.icon;
               return (
                 <Link
