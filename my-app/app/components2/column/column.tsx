@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Trash2 } from "lucide-react";
 
-import { ADMIN_ACCESS_TOKEN_KEY } from "@/lib/admin-auth";
+import { getAdminAccessToken } from "@/lib/admin-auth";
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
 
 type ColumnId = "new" | "in_progress" | "success" | "rejected";
@@ -40,15 +40,10 @@ interface BoardResponse {
 
 /** Удаление через Next API (прокси + JWT сессии админа). */
 async function deleteLeadOnServer(leadId: number): Promise<Response> {
-  let token: string | null = null;
-  try {
-    token = sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY);
-  } catch {
-    /* ignore */
-  }
+  const token = getAdminAccessToken();
   const headers: HeadersInit = {};
-  if (token?.trim()) {
-    headers.Authorization = `Bearer ${token.trim()}`;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
   return fetch(`/api/leads/${leadId}`, { method: "DELETE", headers });
 }

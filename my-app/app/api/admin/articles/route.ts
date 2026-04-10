@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { slugifyTitle } from "@/lib/articles/slug";
+import { normalizeArticleSlugSegment, slugifyTitle } from "@/lib/articles/slug";
 import { readArticles, writeArticles } from "@/lib/articles/store";
 import type { ArticleRecord } from "@/lib/articles/types";
 import { revalidateArticlePaths, revalidateBlogPaths } from "@/lib/articles/revalidate-blog";
@@ -15,7 +15,14 @@ export async function GET(request: Request) {
   }
   const v = await verifyAdminBearerToken(token);
   if (!v.ok) {
-    return NextResponse.json({ detail: "Unauthorized", reason: v.reason }, { status: 401 });
+    return NextResponse.json(
+      {
+        detail: "Unauthorized",
+        reason: v.reason,
+        ...(v.detail ? { hint: v.detail } : {}),
+      },
+      { status: 401 },
+    );
   }
 
   const items = await readArticles();
@@ -30,11 +37,17 @@ export async function POST(request: Request) {
   }
   const v = await verifyAdminBearerToken(token);
   if (!v.ok) {
-    return NextResponse.json({ detail: "Unauthorized", reason: v.reason }, { status: 401 });
+    return NextResponse.json(
+      {
+        detail: "Unauthorized",
+        reason: v.reason,
+        ...(v.detail ? { hint: v.detail } : {}),
+      },
+      { status: 401 },
+    );
   }
 
   let body: {
-    locale?: string;
     slug?: string;
     title?: string;
     excerpt?: string;
@@ -52,7 +65,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ detail: "title required" }, { status: 400 });
   }
 
-  const locale = (typeof body.locale === "string" ? body.locale : "ru").toLowerCase().slice(0, 8);
   const slugRaw = typeof body.slug === "string" ? body.slug.trim() : "";
   const slug = slugifyTitle(slugRaw || title);
   const excerpt = typeof body.excerpt === "string" ? body.excerpt.trim() : "";
@@ -60,14 +72,13 @@ export async function POST(request: Request) {
   const published = Boolean(body.published);
 
   const list = await readArticles();
-  if (list.some((a) => a.locale === locale && a.slug === slug)) {
-    return NextResponse.json({ detail: "slug exists for this locale" }, { status: 409 });
+  if (list.some((a) => normalizeArticleSlugSegment(a.slug) === slug)) {
+    return NextResponse.json({ detail: "slug already exists" }, { status: 409 });
   }
 
   const now = new Date().toISOString();
   const article: ArticleRecord = {
     id: crypto.randomUUID(),
-    locale,
     slug,
     title,
     excerpt,

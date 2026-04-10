@@ -138,3 +138,13 @@ table {
 *::after {
   box-sizing: border-box;
 }
+
+/* Hide horizontal scrollbars but keep scrolling functional. */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

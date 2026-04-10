@@ -56,6 +56,10 @@ npm run dev
 
 Статусы: `new`, `in_progress`, `success`, `rejected`.
 
+### Защищённый `GET /leads` (админка статей на Next)
+
+Тот же контракт, что у FastAPI `vrode_crm`: с заголовком `Authorization: Bearer <access_token>` возвращает список лидов (по умолчанию `limit=20`). Токен — из `POST /auth/login` или значение `ADMIN_ACCESS_TOKEN` в `.env` (если задано и длина ≥ 16). Без `ADMIN_ACCESS_TOKEN` выданные при логине токены хранятся **в памяти** до перезапуска процесса CRM.
+
 ## Прод (локально)
 
 ```bash

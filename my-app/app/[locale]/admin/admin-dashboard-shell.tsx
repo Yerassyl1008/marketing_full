@@ -5,7 +5,7 @@ import { useRouter } from "@/i18n/navigation";
 import { Sidebar } from "@/app/components2/sidebar/sidebar";
 import { SecondHeader } from "@/app/components2/second-header/second-header";
 import type { User } from "@/app/components2/second-header/second-header";
-import { ADMIN_ACCESS_TOKEN_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
+import { getAdminAccessToken, clearAdminAccessToken, ADMIN_THEME_KEY } from "@/lib/admin-auth";
 
 export default function AdminDashboardShell({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -14,16 +14,16 @@ export default function AdminDashboardShell({ children }: { children: ReactNode 
   const [isDark, setIsDark] = useState(false);
   const [user] = useState<User>({
     id: "1",
-    name: "Aibek",
+    name: "Админ",
     avatar: "/img/Mask group.png",
-    role: "Student",
+    role: "Teacher",
     rank: 1,
     solved: 100,
   });
 
   useEffect(() => {
     try {
-      if (!sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY)?.trim()) {
+      if (!getAdminAccessToken()) {
         router.replace("/admin/login");
         return;
       }
@@ -76,11 +76,7 @@ export default function AdminDashboardShell({ children }: { children: ReactNode 
         isMobileOpen={isMobileOpen}
         closeMobile={() => setIsMobileOpen(false)}
         onLogout={() => {
-          try {
-            sessionStorage.removeItem(ADMIN_ACCESS_TOKEN_KEY);
-          } catch {
-            /* ignore */
-          }
+          clearAdminAccessToken();
           router.replace("/admin/login");
         }}
       />

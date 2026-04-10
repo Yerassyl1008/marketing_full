@@ -16,6 +16,7 @@ import {
   getBoard,
   getLeadById,
   insertLead,
+  listLeadsDesc,
   openDb,
   updateLeadFields,
   updateLeadStatus,
@@ -112,6 +113,24 @@ if (!mirror) {
 const BOARD_CACHE_MS = Number(process.env.BOARD_CACHE_MS ?? 2500);
 let boardCache: { at: number; board: ReturnType<typeof buildBoard> } | null = null;
 
+/** Токены после POST /auth/login (если не задан фиксированный ADMIN_ACCESS_TOKEN). */
+const issuedAdminTokens = new Set<string>();
+
+function getBearerTokenFromRequest(req: express.Request): string | null {
+  const h = req.headers.authorization;
+  if (typeof h !== "string" || !h.startsWith("Bearer ")) return null;
+  const t = h.slice(7).trim();
+  return t || null;
+}
+
+function verifyAdminBearer(req: express.Request): boolean {
+  const token = getBearerTokenFromRequest(req);
+  if (!token) return false;
+  const stable = process.env.ADMIN_ACCESS_TOKEN?.trim();
+  if (stable && stable.length >= 16 && token === stable) return true;
+  return issuedAdminTokens.has(token);
+}
+
 function invalidateBoardCache(): void {
   boardCache = null;
 }
@@ -200,9 +219,52 @@ app.post("/auth/login", (req, res) => {
   }
 
   const stable = process.env.ADMIN_ACCESS_TOKEN?.trim();
-  const access_token =
-    stable && stable.length >= 16 ? stable : `gsheet-crm-${randomUUID()}`;
+  let access_token: string;
+  if (stable && stable.length >= 16) {
+    access_token = stable;
+  } else {
+    access_token = `gsheet-crm-${randomUUID()}`;
+    issuedAdminTokens.add(access_token);
+  }
   res.json({ access_token, token_type: "bearer" });
+});
+
+/**
+ * Защищённый список лидов — тот же контракт, что у vrode_crm (Next: статьи в админке).
+ * Authorization: Bearer <token из /auth/login или ADMIN_ACCESS_TOKEN из .env>
+ */
+app.get("/leads", async (req, res) => {
+  if (!verifyAdminBearer(req)) {
+    res.status(401).json({ detail: "Authentication required" });
+    return;
+  }
+  const limit = Math.min(Math.max(Number(req.query.limit) || 20, 1), 100);
+  try {
+    if (!mirror) {
+      if (!db) {
+        res.status(503).json({ detail: "No storage" });
+        return;
+      }
+      res.json(listLeadsDesc(db, limit));
+      return;
+    }
+    const board = await getBoardForResponse(5000);
+    const merged = [
+      ...board.new,
+      ...board.in_progress,
+      ...board.success,
+      ...board.rejected,
+    ];
+    merged.sort((a, b) => (a.created_at < b.created_at ? 1 : -1));
+    res.json(merged.slice(0, limit));
+  } catch (e) {
+    if (!mirror) {
+      console.error("[leads] GET /leads:", e);
+      res.status(500).json({ detail: "Internal error" });
+      return;
+    }
+    sendSheetsError(res, e, "GET /leads");
+  }
 });
 
 const publicLeads = express.Router();
@@ -439,7 +501,7 @@ app.use("/public/leads", publicLeads);
 
 const server = app.listen(PORT, () => {
   console.info(
-    `[crm] http://127.0.0.1:${PORT}  (/auth/login, /public/leads, /public/leads/board)`
+    `[crm] http://127.0.0.1:${PORT}  (/auth/login, GET /leads, /public/leads, /public/leads/board)`
   );
 });
 

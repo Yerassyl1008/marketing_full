@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { slugifyTitle } from "@/lib/articles/slug";
+import { normalizeArticleSlugSegment, slugifyTitle } from "@/lib/articles/slug";
 import { readArticles, writeArticles } from "@/lib/articles/store";
 import type { ArticleRecord } from "@/lib/articles/types";
 import { revalidateArticlePaths, revalidateBlogPaths } from "@/lib/articles/revalidate-blog";
@@ -61,15 +61,12 @@ export async function PATCH(
   if (typeof patch.published === "boolean") {
     next.published = patch.published;
   }
-  if (typeof patch.locale === "string" && patch.locale.trim()) {
-    next.locale = patch.locale.toLowerCase().slice(0, 8);
-  }
   if (typeof patch.slug === "string" && patch.slug.trim()) {
     next.slug = slugifyTitle(patch.slug.trim());
   }
 
   const conflict = list.some(
-    (a, i) => i !== idx && a.locale === next.locale && a.slug === next.slug,
+    (a, i) => i !== idx && normalizeArticleSlugSegment(a.slug) === normalizeArticleSlugSegment(next.slug),
   );
   if (conflict) {
     return NextResponse.json({ detail: "slug exists for this locale" }, { status: 409 });

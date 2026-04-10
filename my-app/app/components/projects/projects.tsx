@@ -1,20 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 const CARD_COUNT = 4;
-
-function countFullCards(rowWidthPx: number, cardW: number, gap: number): number {
-  if (rowWidthPx <= 0 || cardW <= 0) return 1;
-  const row = (n: number) => (n > 0 ? n * cardW + (n - 1) * gap : 0);
-  let n = Math.max(1, Math.floor((rowWidthPx + gap) / (cardW + gap)));
-  while (n > 1 && row(n) > rowWidthPx + 0.5) {
-    n -= 1;
-  }
-  return Math.max(1, n);
-}
 
 function ProjectCard({
   size,
@@ -32,7 +21,7 @@ function ProjectCard({
       className={
         isGrid
           ? "min-w-0 rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
-          : "w-[clamp(220px,min(22vw,280px),280px)] shrink-0 rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+          : "w-full shrink-0 rounded-3xl bg-[var(--workers-bg)] shadow transition-all duration-300 ease-out will-change-transform hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(0,0,0,0.35)] dark:hover:shadow-[0_0_25px_rgba(255,255,255,0.2)] sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)] xl:w-[calc((100%-3rem)/4)]"
       }
     >
       <div
@@ -148,55 +137,6 @@ export default function Projects() {
     price: t("items.silpo.price"),
   };
 
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
-  const [step, setStep] = useState(300);
-  const [maxIndex, setMaxIndex] = useState(0);
-
-  const updateLayout = useCallback(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track) return;
-    const vw = viewport.getBoundingClientRect().width;
-    if (vw < 1) return;
-    const first = track.firstElementChild as HTMLElement | null;
-    if (!first) return;
-
-    const cardW = first.getBoundingClientRect().width;
-    const styles = window.getComputedStyle(track);
-    const gap = parseFloat(styles.columnGap || styles.gap || "16") || 16;
-    const s = cardW + gap;
-    const visible = countFullCards(vw, cardW, gap);
-    const max = Math.max(0, CARD_COUNT - visible);
-
-    setStep(s);
-    setMaxIndex(max);
-    setIndex((i) => Math.min(i, max));
-  }, []);
-
-  useLayoutEffect(() => {
-    updateLayout();
-    const ro = new ResizeObserver(() => updateLayout());
-    const el = viewportRef.current;
-    if (el) ro.observe(el);
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const onMq = () => updateLayout();
-    mq.addEventListener("change", onMq);
-    window.addEventListener("orientationchange", updateLayout);
-    return () => {
-      ro.disconnect();
-      mq.removeEventListener("change", onMq);
-      window.removeEventListener("orientationchange", updateLayout);
-    };
-  }, [updateLayout]);
-
-  const goPrev = () => setIndex((i) => Math.max(0, i - 1));
-  const goNext = () => setIndex((i) => Math.min(maxIndex, i + 1));
-
-  const canPrev = index > 0;
-  const canNext = index < maxIndex;
-
   return (
     <section className="mt-8 min-w-0 px-4 py-6 lg:px-8 lg:py-8">
       <h2 className="text-3xl font-bold text-[var(--foreground)] lg:text-4xl">{t("title")}</h2>
@@ -211,51 +151,13 @@ export default function Projects() {
       </div>
 
       <div className="relative w-full min-w-0">
-        {/* Мобилка / планшет: сетка 1 колонка → от ~480px 2 колонки */}
-        <div className="grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:gap-4 lg:hidden">
-          {Array.from({ length: CARD_COUNT }, (_, i) => (
-            <ProjectCard key={`grid-${i}`} size="grid" project={project} t={t} />
-          ))}
-        </div>
-
-        {/* Десктоп (lg+): карусель с кнопками, как workers */}
-        <div className="hidden min-w-0 items-center gap-2 px-0 md:gap-3 lg:flex lg:px-0">
-          <button
-            type="button"
-            aria-label={t("prevSlide")}
-            disabled={!canPrev}
-            onClick={goPrev}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-zinc-200 bg-white text-lg text-zinc-800 shadow-md transition-all hover:shadow-lg disabled:pointer-events-none disabled:opacity-30 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          >
-            <span aria-hidden>←</span>
-          </button>
-
-          <div
-            ref={viewportRef}
-            className="min-w-0 flex-1 overflow-hidden pb-2 pt-1"
-            role="region"
-            aria-label={t("title")}
-          >
-            <div
-              ref={trackRef}
-              className="flex gap-4 transition-[transform] duration-300 ease-out will-change-transform"
-              style={{ transform: `translate3d(-${index * step}px, 0, 0)` }}
-            >
-              {Array.from({ length: CARD_COUNT }, (_, i) => (
-                <ProjectCard key={`car-${i}`} size="carousel" project={project} t={t} />
-              ))}
-            </div>
+        {/* Один адаптивный ряд карточек */}
+        <div className="scrollbar-none overflow-x-auto pb-2 pt-1">
+          <div className="flex gap-2 sm:gap-4">
+            {Array.from({ length: CARD_COUNT }, (_, i) => (
+              <ProjectCard key={`car-${i}`} size="carousel" project={project} t={t} />
+            ))}
           </div>
-
-          <button
-            type="button"
-            aria-label={t("nextSlide")}
-            disabled={!canNext}
-            onClick={goNext}
-            className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-zinc-200 bg-white text-lg text-zinc-800 shadow-md transition-all hover:shadow-lg disabled:pointer-events-none disabled:opacity-30 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
-          >
-            <span aria-hidden>→</span>
-          </button>
         </div>
       </div>
     </section>

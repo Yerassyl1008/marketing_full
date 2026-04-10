@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 
+import { normalizeArticleSlugSegment } from "./slug";
 import type { ArticleRecord } from "./types";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -22,16 +23,15 @@ export async function writeArticles(articles: ArticleRecord[]): Promise<void> {
 }
 
 export async function getArticleBySlug(
-  locale: string,
   slug: string,
   publishedOnly: boolean,
 ): Promise<ArticleRecord | null> {
+  const wanted = normalizeArticleSlugSegment(slug);
   const list = await readArticles();
   return (
     list.find(
       (a) =>
-        a.slug === slug &&
-        a.locale === locale &&
+        normalizeArticleSlugSegment(a.slug) === wanted &&
         (!publishedOnly || a.published),
     ) ?? null
   );

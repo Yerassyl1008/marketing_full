@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 import { socialIconSrc, useIsDarkTheme } from "@/lib/social-icons";
 
-/** Фон героя: WebM из `public/video/217.webm`. GIF — только через <Image>, не в <video>. */
+/** Фон героя: mp4 из `public/Untitled design (5).mp4`. GIF — только через <Image>, не в <video>. */
 const HERO_VIDEO_SRC = "/video/217.webm";
 const HERO_DARK_IS_GIF = /\.gif$/i.test(HERO_VIDEO_SRC);
 

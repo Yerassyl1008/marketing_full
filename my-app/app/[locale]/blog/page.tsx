@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import Header from "@/app/components/headaer/header";
 import Footer from "@/app/components/footer/footer";
 import { TeamSurfaceHeaderSection } from "@/app/components/layout/team-surface-header";
+import { resolveArticleForLocale } from "@/lib/articles/resolve-display";
 import { readArticles } from "@/lib/articles/store";
 
 export const dynamic = "force-dynamic";
@@ -11,9 +12,15 @@ export const dynamic = "force-dynamic";
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "blog" });
-  const list = (await readArticles())
-    .filter((a) => a.published && a.locale === locale)
+  const raw = (await readArticles())
+    .filter((a) => a.published)
     .sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
+  const list = await Promise.all(
+    raw.map(async (article) => ({
+      article,
+      view: await resolveArticleForLocale(article, locale),
+    })),
+  );
 
   return (
     <>
@@ -28,15 +35,19 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
               <p className="mt-10 text-[var(--design-muted)]">{t("empty")}</p>
             ) : (
               <ul className="mt-8 flex flex-col gap-4">
-                {list.map((article) => (
+                {list.map(({ article, view }) => (
                   <li key={article.id}>
                     <Link
                       href={`/blog/${article.slug}`}
-                      className="block rounded-2xl border border-[color:var(--foreground)]/10 bg-[var(--header-bg)] p-5 transition hover:border-[var(--design-btn)]/40 dark:border-white/10"
+                      className="block min-w-0 rounded-2xl border border-[color:var(--foreground)]/10 bg-[var(--header-bg)] p-5 transition hover:border-[var(--design-btn)]/40 dark:border-white/10"
                     >
-                      <h2 className="text-xl font-semibold text-[var(--foreground)]">{article.title}</h2>
-                      {article.excerpt ? (
-                        <p className="mt-2 line-clamp-2 text-sm text-[var(--design-muted)]">{article.excerpt}</p>
+                      <h2 className="break-words text-xl font-semibold text-[var(--foreground)] [overflow-wrap:anywhere]">
+                        {view.title}
+                      </h2>
+                      {view.excerpt ? (
+                        <p className="mt-2 line-clamp-2 break-words text-sm text-[var(--design-muted)] [overflow-wrap:anywhere]">
+                          {view.excerpt}
+                        </p>
                       ) : null}
                       <span className="mt-3 inline-block text-sm font-medium text-[var(--design-btn)]">
                         {t("readMore")} →

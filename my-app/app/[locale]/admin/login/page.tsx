@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
-import { ADMIN_ACCESS_TOKEN_KEY, ADMIN_THEME_KEY } from "@/lib/admin-auth";
+import { getAdminAccessToken, setAdminAccessToken, ADMIN_THEME_KEY } from "@/lib/admin-auth";
 
 export default function AdminLoginPage() {
   const t = useTranslations("adminLogin");
@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY)?.trim()) {
+      if (getAdminAccessToken()) {
         router.replace("/admin");
       }
     } catch {
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
         return;
       }
       try {
-        sessionStorage.setItem(ADMIN_ACCESS_TOKEN_KEY, data.access_token);
+        setAdminAccessToken(data.access_token);
       } catch {
         setError(true);
         return;

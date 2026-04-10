@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 
 import { PUBLIC_LEADS_PROXY_BASE } from "@/lib/public-leads-proxy";
@@ -26,9 +26,19 @@ const tagIds = [
   "andMore",
 ] as const;
 
+const EMAIL_PATTERN = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$";
+const TELEGRAM_PATTERN = "^@?[A-Za-z0-9_]{5,32}$";
+const WHATSAPP_PATTERN = "^\\+?[0-9()\\-\\s]{8,20}$";
+
 type CardProps = {
   /** Внутри уже окрашенной секции (connect): без второго слоя team-surface и тени */
   embedded?: boolean;
+};
+
+type FieldErrors = {
+  name: string;
+  email: string;
+  contact: string;
 };
 
 export default function Card({ embedded = false }: CardProps) {
@@ -41,13 +51,31 @@ export default function Card({ embedded = false }: CardProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [submitSuccess, setSubmitSuccess] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({ name: "", email: "", contact: "" });
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const contactRef = useRef<HTMLInputElement>(null);
+
+  const getFieldError = (input: HTMLInputElement | null): string => {
+    if (!input || input.validity.valid) return "";
+    return input.validationMessage || t("errors.requiredFields");
+  };
+
+  const validateAllFields = () => {
+    const nextErrors: FieldErrors = {
+      name: getFieldError(nameRef.current),
+      email: getFieldError(emailRef.current),
+      contact: getFieldError(contactRef.current),
+    };
+    setFieldErrors(nextErrors);
+    return !nextErrors.name && !nextErrors.email && !nextErrors.contact;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSubmitError("");
     setSubmitSuccess("");
-
-    if (!name.trim() || !email.trim() || !contact.trim()) {
+    if (!validateAllFields()) {
       setSubmitError(t("errors.requiredFields"));
       return;
     }
@@ -80,6 +108,7 @@ export default function Card({ embedded = false }: CardProps) {
       setEmail("");
       setContact("");
       setContactType("telegram");
+      setFieldErrors({ name: "", email: "", contact: "" });
     } catch (error) {
       if (error instanceof Error && error.name === "TimeoutError") {
         setSubmitError(t("errors.submitTimeout"));
@@ -145,7 +174,7 @@ export default function Card({ embedded = false }: CardProps) {
             </div>
           </div>
 
-          <form className="rounded-3xl p-1 lg:p-0" onSubmit={handleSubmit}>
+          <form className="rounded-3xl p-1 lg:p-0" onSubmit={handleSubmit} noValidate>
             <h3 className="mb-4 text-2xl leading-tight font-bold text-[var(--foreground)] sm:mb-5 sm:text-3xl">
               {t("form.title")}
             </h3>
@@ -160,9 +189,27 @@ export default function Card({ embedded = false }: CardProps) {
               id="name"
               type="text"
               value={name}
-              onChange={(event) => setName(event.target.value)}
-              className="mb-4 w-full rounded-2xl border border-[color:var(--foreground)]/20 bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] sm:px-4 sm:text-lg"
+              onChange={(event) => {
+                setName(event.target.value);
+                if (fieldErrors.name) setFieldErrors((prev) => ({ ...prev, name: "" }));
+              }}
+              onBlur={() =>
+                setFieldErrors((prev) => ({ ...prev, name: getFieldError(nameRef.current) }))
+              }
+              ref={nameRef}
+              required
+              minLength={2}
+              maxLength={80}
+              aria-invalid={Boolean(fieldErrors.name)}
+              className={`w-full rounded-2xl border bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] sm:px-4 sm:text-lg ${
+                fieldErrors.name
+                  ? "border-[#ff8f8f] focus:border-[#ff6f6f]"
+                  : "mb-4 border-[color:var(--foreground)]/20 focus:border-[var(--design-btn)]"
+              }`}
             />
+            {fieldErrors.name ? (
+              <p className="mb-4 mt-1 text-xs leading-tight text-[#ff6f6f] sm:text-sm">{fieldErrors.name}</p>
+            ) : null}
 
             <label
               className="mb-2 block text-base text-[var(--design-muted)] sm:text-lg"
@@ -174,10 +221,28 @@ export default function Card({ embedded = false }: CardProps) {
               id="email"
               type="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: "" }));
+              }}
+              onBlur={() =>
+                setFieldErrors((prev) => ({ ...prev, email: getFieldError(emailRef.current) }))
+              }
+              ref={emailRef}
               placeholder="example@gmail.com"
-              className="mb-4 w-full rounded-2xl border border-[color:var(--foreground)]/20 bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] focus:border-[var(--design-btn)] sm:px-4 sm:text-lg"
+              required
+              maxLength={120}
+              pattern={EMAIL_PATTERN}
+              aria-invalid={Boolean(fieldErrors.email)}
+              className={`w-full rounded-2xl border bg-[var(--card-input-bg)] px-3 py-2.5 text-base text-[var(--foreground)] outline-none transition placeholder:text-[var(--design-muted)] sm:px-4 sm:text-lg ${
+                fieldErrors.email
+                  ? "border-[#ff8f8f] focus:border-[#ff6f6f]"
+                  : "mb-4 border-[color:var(--foreground)]/20 focus:border-[var(--design-btn)]"
+              }`}
             />
+            {fieldErrors.email ? (
+              <p className="mb-4 mt-1 text-xs leading-tight text-[#ff6f6f] sm:text-sm">{fieldErrors.email}</p>
+            ) : null}
 
             <p className="mb-2 text-base text-[var(--design-muted)] sm:text-lg">
               {t("form.contactMethodLabel")}
@@ -185,7 +250,10 @@ export default function Card({ embedded = false }: CardProps) {
             <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <button
                 type="button"
-                onClick={() => setContactType("telegram")}
+                onClick={() => {
+                  setContactType("telegram");
+                  if (fieldErrors.contact) setFieldErrors((prev) => ({ ...prev, contact: "" }));
+                }}
                 className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-left text-sm transition sm:text-base ${
                   contactType === "telegram"
                     ? "border-[var(--design-btn)] bg-[var(--design-btn)]/18 font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-[var(--design-btn)]/35 dark:bg-[var(--design-btn)]/25"
@@ -217,7 +285,10 @@ export default function Card({ embedded = false }: CardProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setContactType("whatsapp")}
+                onClick={() => {
+                  setContactType("whatsapp");
+                  if (fieldErrors.contact) setFieldErrors((prev) => ({ ...prev, contact: "" }));
+                }}
                 className={`flex items-center justify-between rounded-2xl border px-3 py-2.5 text-left text-sm transition sm:text-base ${
                   contactType === "whatsapp"
                     ? "border-[var(--design-btn)] bg-[var(--design-btn)]/18 font-semibold text-[var(--foreground)] shadow-sm ring-1 ring-[var(--design-btn)]/35 dark:bg-[var(--design-btn)]/25"
@@ -266,7 +337,19 @@ export default function Card({ embedded = false }: CardProps) {
               id="tg"
               type="text"
               value={contact}
-              onChange={(event) => setContact(event.target.value)}
+              onChange={(event) => {
+                setContact(event.target.value);
+                if (fieldErrors.contact) setFieldErrors((prev) => ({ ...prev, contact: "" }));
+              }}
+              onBlur={() =>
+                setFieldErrors((prev) => ({ ...prev, contact: getFieldError(contactRef.current) }))
+              }
+              ref={contactRef}
+              required
+              minLength={contactType === "telegram" ? 5 : 8}
+              maxLength={contactType === "telegram" ? 32 : 20}
+              pattern={contactType === "telegram" ? TELEGRAM_PATTERN : WHATSAPP_PATTERN}
+              aria-invalid={Boolean(fieldErrors.contact || submitError)}
               placeholder={
                 contactType === "telegram"
                   ? t("form.contactPlaceholderTelegram")
@@ -278,6 +361,11 @@ export default function Card({ embedded = false }: CardProps) {
                   : "border-[color:var(--foreground)]/20 focus:border-[var(--design-btn)]"
               }`}
             />
+            {fieldErrors.contact ? (
+              <p className="mb-4 -mt-3 text-xs leading-tight text-[#ff6f6f] sm:text-sm">
+                {fieldErrors.contact}
+              </p>
+            ) : null}
 
             {submitSuccess ? (
               <p className="mb-4 text-sm text-emerald-600">{submitSuccess}</p>

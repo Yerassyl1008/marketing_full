@@ -3,13 +3,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import AdminDashboardShell from "../admin-dashboard-shell";
-import { ADMIN_ACCESS_TOKEN_KEY } from "@/lib/admin-auth";
-
-const LOCALES = ["ru", "en", "fr", "ar", "de"] as const;
+import { getAdminAccessToken } from "@/lib/admin-auth";
 
 type ArticleItem = {
   id: string;
-  locale: string;
   slug: string;
   title: string;
   excerpt: string;
@@ -17,11 +14,12 @@ type ArticleItem = {
   published: boolean;
   createdAt: string;
   updatedAt: string;
+  locale?: string;
+  i18n?: Record<string, { title?: string; excerpt?: string; body?: string }>;
 };
 
 function authHeader(): HeadersInit {
-  const token =
-    typeof window !== "undefined" ? sessionStorage.getItem(ADMIN_ACCESS_TOKEN_KEY)?.trim() : "";
+  const token = typeof window !== "undefined" ? getAdminAccessToken() : "";
   return {
     "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -35,7 +33,6 @@ export default function AdminArticlesPage() {
   const [saving, setSaving] = useState(false);
 
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [locale, setLocale] = useState<string>("ru");
   const [slug, setSlug] = useState("");
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
@@ -73,12 +70,10 @@ export default function AdminArticlesPage() {
     setExcerpt("");
     setBody("");
     setPublished(true);
-    setLocale("ru");
   }
 
   function startEdit(a: ArticleItem) {
     setEditingId(a.id);
-    setLocale(a.locale);
     setSlug(a.slug);
     setTitle(a.title);
     setExcerpt(a.excerpt);
@@ -100,7 +95,6 @@ export default function AdminArticlesPage() {
           method: "PATCH",
           headers: authHeader(),
           body: JSON.stringify({
-            locale,
             slug: slug.trim() || undefined,
             title: title.trim(),
             excerpt: excerpt.trim(),
@@ -118,7 +112,6 @@ export default function AdminArticlesPage() {
           method: "POST",
           headers: authHeader(),
           body: JSON.stringify({
-            locale,
             slug: slug.trim() || undefined,
             title: title.trim(),
             excerpt: excerpt.trim(),
@@ -168,7 +161,11 @@ export default function AdminArticlesPage() {
           <div>
             <h1 className="text-2xl font-bold text-[var(--foreground)]">Статьи</h1>
             <p className="mt-1 text-sm text-[var(--design-muted)]">
-              Публикация на сайте: раздел «Блог». Сохранение в{" "}
+              Пишите на русском: статьи видны во всех локалях блога; при смене языка сайта подставляется
+              перевод (в dev по умолчанию включён, на проде —{" "}
+              <code className="rounded bg-[var(--team-surface)] px-1">ARTICLE_MACHINE_TRANSLATE</code>, см.{" "}
+              <code className="rounded bg-[var(--team-surface)] px-1">.env.example</code>
+              ). Данные:{" "}
               <code className="rounded bg-[var(--team-surface)] px-1">data/articles.json</code>.
             </p>
           </div>
@@ -194,36 +191,20 @@ export default function AdminArticlesPage() {
             {editingId ? "Редактировать" : "Новая статья"}
           </h2>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            <label className="block text-sm">
-              <span className="mb-1 block font-medium text-[var(--foreground)]">Язык</span>
-              <select
-                value={locale}
-                onChange={(e) => setLocale(e.target.value)}
-                className="w-full rounded-xl border border-[color:var(--foreground)]/15 bg-[var(--card-input-bg)] px-3 py-2 text-[var(--foreground)]"
-              >
-                {LOCALES.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {loc.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="block text-sm">
-              <span className="mb-1 block font-medium text-[var(--foreground)]">
-                Slug (URL, необязательно)
-              </span>
-              <input
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
-                placeholder="из заголовка"
-                className="w-full rounded-xl border border-[color:var(--foreground)]/15 bg-[var(--card-input-bg)] px-3 py-2 text-[var(--foreground)]"
-              />
-            </label>
-          </div>
+          <label className="block text-sm">
+            <span className="mb-1 block font-medium text-[var(--foreground)]">
+              Slug (URL, необязательно)
+            </span>
+            <input
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              placeholder="из заголовка"
+              className="w-full rounded-xl border border-[color:var(--foreground)]/15 bg-[var(--card-input-bg)] px-3 py-2 text-[var(--foreground)]"
+            />
+          </label>
 
           <label className="block text-sm">
-            <span className="mb-1 block font-medium text-[var(--foreground)]">Заголовок</span>
+            <span className="mb-1 block font-medium text-[var(--foreground)]">Заголовок (RU)</span>
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -233,7 +214,7 @@ export default function AdminArticlesPage() {
           </label>
 
           <label className="block text-sm">
-            <span className="mb-1 block font-medium text-[var(--foreground)]">Краткое описание</span>
+            <span className="mb-1 block font-medium text-[var(--foreground)]">Краткое описание (RU)</span>
             <input
               value={excerpt}
               onChange={(e) => setExcerpt(e.target.value)}
@@ -242,7 +223,7 @@ export default function AdminArticlesPage() {
           </label>
 
           <label className="block text-sm">
-            <span className="mb-1 block font-medium text-[var(--foreground)]">Текст</span>
+            <span className="mb-1 block font-medium text-[var(--foreground)]">Текст (RU)</span>
             <textarea
               value={body}
               onChange={(e) => setBody(e.target.value)}
@@ -297,7 +278,7 @@ export default function AdminArticlesPage() {
                   <div className="min-w-0">
                     <p className="font-medium text-[var(--foreground)]">{a.title}</p>
                     <p className="truncate text-xs text-[var(--design-muted)]">
-                      {a.locale.toUpperCase()} · /blog/{a.slug}
+                      /blog/{a.slug}
                       {!a.published ? " · черновик" : ""}
                     </p>
                   </div>

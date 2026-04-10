@@ -74,6 +74,15 @@ export function getLeadById(db: Database.Database, id: number): LeadRow | null {
   return r ? rowToLead(r) : null;
 }
 
+/** Список лидов для защищённого GET /leads (как в FastAPI CRM). */
+export function listLeadsDesc(db: Database.Database, limit: number): LeadRow[] {
+  const cap = Math.min(Math.max(limit, 1), 5000);
+  const rows = db
+    .prepare(`SELECT * FROM leads ORDER BY datetime(created_at) DESC LIMIT ?`)
+    .all(cap) as Record<string, unknown>[];
+  return rows.map((r) => rowToLead(r));
+}
+
 export function getBoard(db: Database.Database, limit = 1000): BoardResponse {
   const board: BoardResponse = {
     new: [],
