@@ -11,6 +11,8 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import PQueue from "p-queue";
 
+import { mountArticleRoutes } from "./articles-routes.js";
+import { openArticlesDb } from "./articles-db.js";
 import {
   deleteLead,
   getBoard,
@@ -110,6 +112,9 @@ if (!mirror) {
   }
 }
 
+/** Статьи блога — отдельный SQLite (работает и при Google Sheets, и без). */
+const articlesDb = openArticlesDb();
+
 const BOARD_CACHE_MS = Number(process.env.BOARD_CACHE_MS ?? 2500);
 let boardCache: { at: number; board: ReturnType<typeof buildBoard> } | null = null;
 
@@ -173,6 +178,7 @@ app.get("/health", (_req, res) => {
   res.json({
     ok: true,
     storage: mirror ? "google_sheet" : "sqlite",
+    articles: "sqlite",
     sheets: Boolean(mirror),
     boardCacheMs: mirror ? BOARD_CACHE_MS : null,
     queuePending: sheetsQueue.pending,
@@ -499,9 +505,11 @@ publicLeads.post("/delete/:leadId", (req, res) => void deleteLeadHandler(req, re
 
 app.use("/public/leads", publicLeads);
 
+mountArticleRoutes(app, articlesDb, verifyAdminBearer);
+
 const server = app.listen(PORT, () => {
   console.info(
-    `[crm] http://127.0.0.1:${PORT}  (/auth/login, GET /leads, /public/leads, /public/leads/board)`
+    `[crm] http://127.0.0.1:${PORT}  (/auth/login, GET /leads, /public/leads, /public/articles, GET /articles)`
   );
 });
 

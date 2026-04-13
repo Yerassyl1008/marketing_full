@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { normalizeArticleSlugSegment, slugifyTitle } from "@/lib/articles/slug";
-import { readArticles, writeArticles } from "@/lib/articles/store";
-import type { ArticleRecord } from "@/lib/articles/types";
 import { revalidateArticlePaths, revalidateBlogPaths } from "@/lib/articles/revalidate-blog";
+import { getCrmServerBaseUrl } from "@/lib/crm-server";
 import { getBearerToken, verifyAdminBearerToken } from "@/lib/verify-admin-bearer";
 
 export const dynamic = "force-dynamic";
@@ -19,92 +17,81 @@ export async function PATCH(
   request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  if (!(await auth(request))) {
+  const token = await auth(request);
+  if (!token) {
     return NextResponse.json({ detail: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = await context.params;
-  let patch: Partial<{
-    locale: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    body: string;
-    published: boolean;
-  }>;
+  let body: unknown;
   try {
-    patch = (await request.json()) as typeof patch;
+    body = await request.json();
   } catch {
     return NextResponse.json({ detail: "Invalid JSON" }, { status: 400 });
   }
 
-  const list = await readArticles();
-  const idx = list.findIndex((a) => a.id === id);
-  if (idx === -1) {
-    return NextResponse.json({ detail: "Not found" }, { status: 404 });
-  }
+  const res = await fetch(`${getCrmServerBaseUrl()}/articles/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    cache: "no-store",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(body),
+  });
 
-  const prev = list[idx];
-  const oldSlug = prev.slug;
+  const data = (await res.json().catch(() => ({}))) as {
+    detail?: string;
+    item?: { slug?: string };
+    oldSlug?: string;
+  };
 
-  const next: ArticleRecord = { ...prev };
-
-  if (typeof patch.title === "string" && patch.title.trim()) {
-    next.title = patch.title.trim();
+  if (!res.ok) {
+    return NextResponse.json(
+      { detail: typeof data.detail === "string" ? data.detail : "Ошибка сохранения" },
+      { status: res.status >= 400 && res.status < 600 ? res.status : 502 },
+    );
   }
-  if (typeof patch.excerpt === "string") {
-    next.excerpt = patch.excerpt.trim();
-  }
-  if (typeof patch.body === "string") {
-    next.body = patch.body;
-  }
-  if (typeof patch.published === "boolean") {
-    next.published = patch.published;
-  }
-  if (typeof patch.slug === "string" && patch.slug.trim()) {
-    next.slug = slugifyTitle(patch.slug.trim());
-  }
-
-  const conflict = list.some(
-    (a, i) => i !== idx && normalizeArticleSlugSegment(a.slug) === normalizeArticleSlugSegment(next.slug),
-  );
-  if (conflict) {
-    return NextResponse.json({ detail: "slug exists for this locale" }, { status: 409 });
-  }
-
-  next.updatedAt = new Date().toISOString();
-  list[idx] = next;
-  await writeArticles(list);
 
   revalidateBlogPaths();
-  revalidateArticlePaths(oldSlug);
-  if (next.slug !== oldSlug) {
-    revalidateArticlePaths(next.slug);
+  if (typeof data.oldSlug === "string") {
+    revalidateArticlePaths(data.oldSlug);
+  }
+  if (typeof data.item?.slug === "string") {
+    revalidateArticlePaths(data.item.slug);
   }
 
-  return NextResponse.json({ item: next });
+  return NextResponse.json(data);
 }
 
 export async function DELETE(
   request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
-  if (!(await auth(request))) {
+  const token = await auth(request);
+  if (!token) {
     return NextResponse.json({ detail: "Unauthorized" }, { status: 401 });
   }
 
   const { id } = await context.params;
-  const list = await readArticles();
-  const idx = list.findIndex((a) => a.id === id);
-  if (idx === -1) {
-    return NextResponse.json({ detail: "Not found" }, { status: 404 });
+  const res = await fetch(`${getCrmServerBaseUrl()}/articles/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+    cache: "no-store",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  const data = (await res.json().catch(() => ({}))) as { detail?: string; slug?: string };
+
+  if (!res.ok) {
+    return NextResponse.json(
+      { detail: typeof data.detail === "string" ? data.detail : "Не удалось удалить" },
+      { status: res.status >= 400 && res.status < 600 ? res.status : 502 },
+    );
   }
 
-  const slug = list[idx].slug;
-  list.splice(idx, 1);
-  await writeArticles(list);
   revalidateBlogPaths();
-  revalidateArticlePaths(slug);
-
+  if (typeof data.slug === "string") {
+    revalidateArticlePaths(data.slug);
+  }
   return NextResponse.json({ ok: true });
 }
